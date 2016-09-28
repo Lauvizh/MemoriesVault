@@ -1,7 +1,4 @@
 <?php
-// gestion des permissions
-umask(0000);
-
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Debug\Debug;
 
