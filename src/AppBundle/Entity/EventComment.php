@@ -21,6 +21,25 @@ class EventComment
      */
     private $id;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="content", type="string", length=6400)
+     */
+    private $content;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date", type="datetime")
+     */
+    private $date;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Event", inversedBy="comments")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $event;
 
     /**
      * Get id
@@ -31,5 +50,76 @@ class EventComment
     {
         return $this->id;
     }
-}
 
+    /**
+     * Set content
+     *
+     * @param string $content
+     *
+     * @return EventComment
+     */
+    public function setContent($content)
+    {
+        $this->content = $content;
+
+        return $this;
+    }
+
+    /**
+     * Get content
+     *
+     * @return string
+     */
+    public function getContent()
+    {
+        return $this->content;
+    }
+
+    /**
+     * Set date
+     *
+     * @param \DateTime $date
+     *
+     * @return EventComment
+     */
+    public function setDate($date)
+    {
+        $this->date = $date;
+
+        return $this;
+    }
+
+    /**
+     * Get date
+     *
+     * @return \DateTime
+     */
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    /**
+     * Set event
+     *
+     * @param \AppBundle\Entity\Event $event
+     *
+     * @return EventComment
+     */
+    public function setEvent(\AppBundle\Entity\Event $event = null)
+    {
+        $this->event = $event;
+
+        return $this;
+    }
+
+    /**
+     * Get event
+     *
+     * @return \AppBundle\Entity\Event
+     */
+    public function getEvent()
+    {
+        return $this->event;
+    }
+}
