@@ -42,6 +42,12 @@ class EventComment
     private $event;
 
     /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="eventComments")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+
+    /**
      * Get id
      *
      * @return int

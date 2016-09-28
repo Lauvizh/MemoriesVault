@@ -101,6 +101,12 @@ class Event
     private $countVideos;
 
     /**
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User", mappedBy="viweableEvents")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $allowedUsers;
+
+    /**
      * Get id
      *
      * @return int
