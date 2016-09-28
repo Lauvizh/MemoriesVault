@@ -18,5 +18,5 @@
 /*.sql*
 *.sql.zip
 /medias/*
-/#sublimefiles
+/#sublimesfiles
 *.php~
