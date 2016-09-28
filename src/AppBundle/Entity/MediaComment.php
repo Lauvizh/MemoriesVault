@@ -36,7 +36,7 @@ class MediaComment
     private $date;
 
     /**
-     * @ORM\ManyToOne(targetEntity="LF\MediasBundle\Entity\Media", inversedBy="comments")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Media", inversedBy="comments")
      * @ORM\JoinColumn(nullable=false)
      */
     private $media;
