@@ -14,3 +14,9 @@
 !var/SymfonyRequirements.php
 /vendor/
 /web/bundles/
+/*.sql
+/*.sql*
+*.sql.zip
+/medias/*
+/#sublimesfiles
+*.php~
