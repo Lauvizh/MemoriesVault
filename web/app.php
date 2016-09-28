@@ -1,7 +1,7 @@
 <?php
 
 // gestion des permissions
-unmask(0002);
+umask(0000);
 
 use Symfony\Component\HttpFoundation\Request;
 
