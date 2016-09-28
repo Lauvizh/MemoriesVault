@@ -106,7 +106,7 @@ class MediaComment
      *
      * @return MediaComment
      */
-    public function setMedia(\LF\MediasBundle\Entity\Media $media)
+    public function setMedia(\AppBundle\Entity\Media $media)
     {
         $this->media = $media;
 
