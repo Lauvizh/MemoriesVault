@@ -107,6 +107,12 @@ class Event
     private $allowedUsers;
 
     /**
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User", mappedBy="seenEvents")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $viewedByUsers;
+
+    /**
      * Get id
      *
      * @return int

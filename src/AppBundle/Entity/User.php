@@ -38,6 +38,12 @@ class User extends BaseUser
     private $viweableEvents;
 
     /**
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Event", inversedBy="viewedByUsers")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $seenEvents;
+
+    /**
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\EventComment", mappedBy="user", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
