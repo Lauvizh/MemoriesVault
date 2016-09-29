@@ -20,3 +20,4 @@
 /medias/*
 /#sublimesfiles
 *.php~
+/node_modules/*
