@@ -41,6 +41,20 @@ class Theme
      */
     private $events;
 
+    
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->events = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    public function __toString() {
+        return $this->name;
+    }
+
+
     /**
      * Get id
      *
@@ -49,13 +63,6 @@ class Theme
     public function getId()
     {
         return $this->id;
-    }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->events = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
