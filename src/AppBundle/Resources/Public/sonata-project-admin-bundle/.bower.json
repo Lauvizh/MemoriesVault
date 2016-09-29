@@ -21,6 +21,5 @@
   ],
   "_source": "/var/www/memories_vault/vendor/sonata-project/admin-bundle/bower.json",
   "_target": "*",
-  "_originalSource": "./vendor/sonata-project/admin-bundle/bower.json",
-  "_direct": true
+  "_originalSource": "./vendor/sonata-project/admin-bundle/bower.json"
 }
