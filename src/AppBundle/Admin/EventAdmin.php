@@ -28,8 +28,6 @@ class EventAdmin extends AbstractAdmin
     {
         $datagridMapper
             ->add('title')
-            ->add('startDate')
-            ->add('endDate')
             ->add('summary')
             ->add('themes');
     }
@@ -38,8 +36,8 @@ class EventAdmin extends AbstractAdmin
     {
         $listMapper
             ->addIdentifier('title')
-            ->add('startDate')
-            ->add('endDate')
+            ->add('startDate', 'datetime', array('format'=>'d-m-Y H:i'))
+            ->add('endDate', 'datetime', array('format'=>'d-m-Y H:i'))
             ->add('summary')
             ->add('themes');
     }

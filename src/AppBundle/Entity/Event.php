@@ -128,6 +128,8 @@ class Event
         $this->themes = new \Doctrine\Common\Collections\ArrayCollection();
         $this->comments = new \Doctrine\Common\Collections\ArrayCollection();
         $this->medias = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->createdDate = $this->modifiedDate = new \DateTime();
+        $this->countPhotos = $this->countVideos = 0;
     }
 
     /**
