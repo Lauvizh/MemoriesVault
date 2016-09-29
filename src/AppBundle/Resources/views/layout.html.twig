@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+	<link rel="stylesheet" href="{{ asset('css/memories_vault.css') }}" />
 {% endblock %}
 
 {% block body%}
@@ -69,17 +70,16 @@
 	{% endblock %}
 
 	<div class="container">
-	{% block content%}{% endblock %}
+		{% block content%}{% endblock %}
 	</div>
 	<div class="container">
-	{% block footer%}
-	<footer class="col-xs-12 text-center">
-		<p id="copyright"><span class="small">Powered by Loïc Fontaine / <a href="http://www.loicfontaine.net" target="_blank">www.loicfontaine.net</a></span></p>
-	</footer>
-	{% endblock %}
-
-
+		{% block footer%}
+		<footer class="col-xs-12 text-center">
+			<p id="copyright"><span class="small">Powered by Loïc Fontaine / <a href="http://www.loicfontaine.net" target="_blank">www.loicfontaine.net</a></span></p>
+		</footer>
+		{% endblock %}
 	</div>
 {% endblock %}
-{% block javascript%}
+{% block javascripts%}
+	<script src="{{ asset('js/memories_vault.js') }}"></script>
 {% endblock %}
