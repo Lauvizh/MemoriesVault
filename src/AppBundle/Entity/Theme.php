@@ -48,6 +48,7 @@ class Theme
     public function __construct()
     {
         $this->events = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->homePage = false;
     }
 
     public function __toString() {
