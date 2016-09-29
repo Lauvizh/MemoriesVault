@@ -424,4 +424,72 @@ class Event
     {
         return $this->medias;
     }
+
+    /**
+     * Add allowedUser
+     *
+     * @param \AppBundle\Entity\User $allowedUser
+     *
+     * @return Event
+     */
+    public function addAllowedUser(\AppBundle\Entity\User $allowedUser)
+    {
+        $this->allowedUsers[] = $allowedUser;
+
+        return $this;
+    }
+
+    /**
+     * Remove allowedUser
+     *
+     * @param \AppBundle\Entity\User $allowedUser
+     */
+    public function removeAllowedUser(\AppBundle\Entity\User $allowedUser)
+    {
+        $this->allowedUsers->removeElement($allowedUser);
+    }
+
+    /**
+     * Get allowedUsers
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getAllowedUsers()
+    {
+        return $this->allowedUsers;
+    }
+
+    /**
+     * Add viewedByUser
+     *
+     * @param \AppBundle\Entity\User $viewedByUser
+     *
+     * @return Event
+     */
+    public function addViewedByUser(\AppBundle\Entity\User $viewedByUser)
+    {
+        $this->viewedByUsers[] = $viewedByUser;
+
+        return $this;
+    }
+
+    /**
+     * Remove viewedByUser
+     *
+     * @param \AppBundle\Entity\User $viewedByUser
+     */
+    public function removeViewedByUser(\AppBundle\Entity\User $viewedByUser)
+    {
+        $this->viewedByUsers->removeElement($viewedByUser);
+    }
+
+    /**
+     * Get viewedByUsers
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getViewedByUsers()
+    {
+        return $this->viewedByUsers;
+    }
 }

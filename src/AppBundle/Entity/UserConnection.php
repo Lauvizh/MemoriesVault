@@ -43,5 +43,52 @@ class UserConnection
     {
         return $this->id;
     }
-}
 
+    /**
+     * Set connectionDate
+     *
+     * @param \DateTime $connectionDate
+     *
+     * @return UserConnection
+     */
+    public function setConnectionDate($connectionDate)
+    {
+        $this->connectionDate = $connectionDate;
+
+        return $this;
+    }
+
+    /**
+     * Get connectionDate
+     *
+     * @return \DateTime
+     */
+    public function getConnectionDate()
+    {
+        return $this->connectionDate;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \AppBundle\Entity\User $user
+     *
+     * @return UserConnection
+     */
+    public function setUser(\AppBundle\Entity\User $user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \AppBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+}
