@@ -1,0 +1,20 @@
+{
+  "name": "memories_vault",
+  "homepage": "https://github.com/Lauvizh/MemoriesVault",
+  "authors": [
+    "Lauvizh <webdev@loicfontaine.net>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3"
+  }
+}
