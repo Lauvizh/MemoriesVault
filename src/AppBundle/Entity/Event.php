@@ -101,6 +101,17 @@ class Event
     private $countVideos;
 
     /**
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User", mappedBy="viweableEvents")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $allowedUsers;
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\UserEventViewed", mappedBy="event")
+     */
+    private $viewedByUsers;
+
+    /**
      * Get id
      *
      * @return int
@@ -117,6 +128,8 @@ class Event
         $this->themes = new \Doctrine\Common\Collections\ArrayCollection();
         $this->comments = new \Doctrine\Common\Collections\ArrayCollection();
         $this->medias = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->createdDate = $this->modifiedDate = new \DateTime();
+        $this->countPhotos = $this->countVideos = 0;
     }
 
     /**
@@ -411,5 +424,73 @@ class Event
     public function getMedias()
     {
         return $this->medias;
+    }
+
+    /**
+     * Add allowedUser
+     *
+     * @param \AppBundle\Entity\User $allowedUser
+     *
+     * @return Event
+     */
+    public function addAllowedUser(\AppBundle\Entity\User $allowedUser)
+    {
+        $this->allowedUsers[] = $allowedUser;
+
+        return $this;
+    }
+
+    /**
+     * Remove allowedUser
+     *
+     * @param \AppBundle\Entity\User $allowedUser
+     */
+    public function removeAllowedUser(\AppBundle\Entity\User $allowedUser)
+    {
+        $this->allowedUsers->removeElement($allowedUser);
+    }
+
+    /**
+     * Get allowedUsers
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getAllowedUsers()
+    {
+        return $this->allowedUsers;
+    }
+
+    /**
+     * Add viewedByUser
+     *
+     * @param \AppBundle\Entity\User $viewedByUser
+     *
+     * @return Event
+     */
+    public function addViewedByUser(\AppBundle\Entity\User $viewedByUser)
+    {
+        $this->viewedByUsers[] = $viewedByUser;
+
+        return $this;
+    }
+
+    /**
+     * Remove viewedByUser
+     *
+     * @param \AppBundle\Entity\User $viewedByUser
+     */
+    public function removeViewedByUser(\AppBundle\Entity\User $viewedByUser)
+    {
+        $this->viewedByUsers->removeElement($viewedByUser);
+    }
+
+    /**
+     * Get viewedByUsers
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getViewedByUsers()
+    {
+        return $this->viewedByUsers;
     }
 }

@@ -40,6 +40,12 @@ class MediaComment
      * @ORM\JoinColumn(nullable=false)
      */
     private $media;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="mediaComments")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
     
     /**
      * Get id
@@ -121,5 +127,29 @@ class MediaComment
     public function getMedia()
     {
         return $this->media;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \AppBundle\Entity\User $user
+     *
+     * @return MediaComment
+     */
+    public function setUser(\AppBundle\Entity\User $user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \AppBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }
