@@ -1,0 +1,18 @@
+{% extends "AppBundle::layout.html.twig" %}
+
+{% block title %} {{ parent() }} - Archives{% endblock %}
+{% block content%}
+<div class="row">
+	<div class="col-xs-12">
+		<p>block content archive</p>
+		{{ render(controller('LFEventBundle:Event:EventListItem', {'events': pagination })) }}
+	</div>
+</div>
+<div class="row">
+	<div class="col-xs-12">
+		<div class="navigation">
+		    {{ knp_pagination_render(pagination) }}
+		</div>
+	</div>
+</div>
+{% endblock %}

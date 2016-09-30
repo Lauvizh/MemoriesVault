@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use \Imagick as Imagick;
 
 /**
  * Media
@@ -861,4 +862,59 @@ class Media
     {
         return $this->comments;
     }
+
+    public function creatThumbnail($size, $basePath, $squared){
+
+        $originalMadia = $basePath."/".$this->getFolder()."/PHOTOS/".$this->getName();
+
+        $mediaPath = $basePath;
+        $mediaPath .= "/imagesdisplay/".sprintf("%08d",$this->getEvent()->getId())."/".sprintf("%08d",$this->getId())."_".$size;
+        if ($squared > 0) {
+            $mediaPath .= "_sq";
+            }
+        $mediaPath .= ".jpg";
+
+        $h = $this->getHeight();
+        $w = $this->getWidth();
+
+        // then calculate the resize perc based upon that dimension
+        $p = ( $w < $h ) ? (100 / $w) * $size : (100 / $h) * $size;
+
+        // define new width / height
+        if (is_numeric($p)) {
+            $nw = ceil($w / 100 * $p);
+            $nh = ceil($h / 100 * $p);
+            }
+
+        $redim = new Imagick($originalMadia);
+
+        if ($squared) {
+            $redim->cropThumbnailImage( $size, $size );
+            }
+        else{
+            $redim->resizeImage($nw,$nh,Imagick::FILTER_LANCZOS,1);
+            }
+        
+        $redim->setImageCompression(Imagick::COMPRESSION_JPEG);
+
+        // Set compression level (1 lowest quality, 100 highest quality)
+        
+        $comp = 85;
+        if ($size < 200) {
+            $comp = 60;
+            }
+        $redim->setImageCompressionQuality($comp);
+        
+
+        // Strip out unneeded meta data
+        $redim->stripImage();
+
+
+        $redim->writeImage($mediaPath);
+
+        $redim->destroy();
+
+        return $this;
+
+        }
 }

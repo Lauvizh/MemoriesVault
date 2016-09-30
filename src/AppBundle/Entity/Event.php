@@ -3,6 +3,8 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Criteria as Criteria;
+use Doctrine\common\Collections\ArrayCollection;
 
 /**
  * Event
@@ -424,6 +426,37 @@ class Event
     public function getMedias()
     {
         return $this->medias;
+    }
+
+    public function getFirstsPhotos($nb = 4)
+    {
+
+        $criteria = Criteria::create()
+        ->where(Criteria::expr()->eq("type", "pho"))
+        ->orderBy(array('pdvDate'=> Criteria::ASC))
+        ->setMaxResults($nb);
+
+        return $this->medias->matching($criteria);
+    }
+
+    public function getPhotos()
+    {
+
+        $criteria = Criteria::create()
+        ->where(Criteria::expr()->eq("type", "pho"))
+        ->orderBy(array('pdvDate'=> Criteria::ASC));
+
+        return $this->medias->matching($criteria);
+    }
+
+    public function getVideos()
+    {
+
+        $criteria = Criteria::create()
+        ->where(Criteria::expr()->eq("type", "vid"))
+        ->orderBy(array('startDate'=> Criteria::ASC));
+
+        return $this->medias->matching($criteria);
     }
 
     /**

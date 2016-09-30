@@ -1,0 +1,51 @@
+{% extends "AppBundle::layout.html.twig" %}
+
+{% block content%}
+{% if event.title %}
+	<div class="row">
+		<div class="col-xs-12">
+			<h1>{{ event.title }}</h1>
+		</div>
+	</div>
+{% endif %}
+{% if event.startDate and event.endDate %}
+	<div class="row">
+		<div class="col-xs-12">
+			<p class="strong">du : {{ event.getStartDate()|date("d/m/Y") }} au : {{ event.getEndDate()|date("d/m/Y") }}</p>
+		</div>
+	</div>
+{% endif %}
+{% if event.summary %}
+	<div class="row">
+		<div class="col-xs-12">
+			<p>{{ event.summary }}</p>
+		</div>
+	</div>
+{% endif %}
+{% if event.getThemes() %}
+	<div class="row">
+		<div class="col-xs-12">
+			<ul class="list-unstyled">
+				{% for theme in event.getThemes() %}
+					<li>{{ theme.name }}</li>
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
+{% endif %}
+<div class="row">
+	<div class="col-xs-12">
+		{% if event.getFirstsPhotos(6) %}
+			<ul class="row list-unstyled">
+				{% for media in event.getFirstsPhotos(6) %}
+					<li class="col-lg-1 col-md-2 col-sm-3 col-xs-4">
+						<a href="{{ path('photo', {'id':media.id, 'size':'900', 'squared':'0'}) }}" class="thumbnail">
+					      <img src="{{ path('photo', {'id':media.id, 'size':'150', 'squared':'1'}) }}" alt="{{ media.fileOldName }}">
+					    </a>
+					</li>
+				{% endfor %}
+			</ul>
+		{% endif %}
+	</div>
+</div>
+{% endblock %}

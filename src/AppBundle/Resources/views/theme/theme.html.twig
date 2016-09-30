@@ -1,0 +1,10 @@
+{% extends "AppBundle::layout.html.twig" %}
+
+{% block content%}
+<div class="row">
+	<div class="col-xs-12">
+		<h1>{{ theme.name }}</h1>
+	</div>
+</div>
+{{ render(controller('LFEventBundle:Event:EventListItem', {'events': theme.getEvents() })) }}
+{% endblock %}

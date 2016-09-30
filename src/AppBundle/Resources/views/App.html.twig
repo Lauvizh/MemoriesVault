@@ -13,21 +13,19 @@
     </head>
     <body>
         <header class="container">
-            {% block header %}{% endblock %}
+            {% block header %}
+                {% include 'AppBundle::header.html.twig' with {'mainTitle':'Memories Vault'} %}
+            {% endblock %}
         </header>
-        <div class="container">
-            {% block navbar %}{% endblock %}
-        </div>
+
+        {% block navigation %}{% endblock %}
+
         <div class="container">
             {% block content %}{% endblock %}
         </div>
-        <footer class="container">
+        <footer class="container-fluid">
             {% block footer%}
-                <div class="row">
-                    <p class="col-xs-12 text-center">
-                        <span class="small">Powered by Loïc Fontaine / </span><a class="small" href="http://www.loicfontaine.net" target="_blank">www.loicfontaine.net</a>
-                    </p>
-                </div>
+                {% include 'AppBundle::footer.html.twig' %}
             {% endblock %}
         </footer>
         {% block javascripts %}{% endblock %}
