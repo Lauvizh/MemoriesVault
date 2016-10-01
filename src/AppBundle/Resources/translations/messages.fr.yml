@@ -1,0 +1,19 @@
+# messages.fr.yml
+app:
+  memoriesVault: coffre des souvenirs
+  word:
+    archives: archives
+    faces: visages
+    from: du
+    home: accueil
+    logIn : connexion
+    logOut: déconnexion
+    myAccount: mon compte
+    myProfile: mon profil
+    themes: thèmes
+    title: titre
+    to : au
+
+#---- Paginator
+Previous: précédent
+Next: suivant

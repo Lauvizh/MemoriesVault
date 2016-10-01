@@ -1,11 +1,11 @@
 {% extends "AppBundle::layout.html.twig" %}
 
-{% block title %} {{ parent() }} - Archives{% endblock %}
+{% block title %} {{ parent() }} - {{ 'app.word.archives'|trans|capitalize }}{% endblock %}
 {% block content%}
 <div class="row">
 	<div class="col-xs-12">
 		<p>block content archive</p>
-		{{ render(controller('LFEventBundle:Event:EventListItem', {'events': pagination })) }}
+		{{ render(controller('AppBundle:Event:EventListItem', {'events': pagination })) }}
 	</div>
 </div>
 <div class="row">

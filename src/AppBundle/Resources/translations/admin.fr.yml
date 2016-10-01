@@ -1,0 +1,11 @@
+# admin.fr.yml
+app:
+  word:
+    admin: gestion
+    members: membres
+    faces: visages
+    events: évènements
+    themes: thèmes
+    membersCo: connexions
+    comments: commentaires
+    medias: medias

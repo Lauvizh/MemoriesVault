@@ -1,0 +1,19 @@
+# messages.fr.yml
+app:
+  memoriesVault: memories vault
+  word:
+    archives: archives
+    faces: faces
+    from: from
+    home: home
+    logIn : login
+    logOut: logout
+    myAccount: my account
+    myProfile: my profile
+    themes: themes
+    title: title
+    to : to
+
+#---- Paginator
+Previous: previous
+Next: next

@@ -52,7 +52,7 @@ class EventController extends Controller
 
         );
         
-        $pagination->setUsedRoute('lf_event_archive');
+        $pagination->setUsedRoute('archive');
 
         return $this->render('AppBundle:event:archive.html.twig', array('pagination'=>$pagination));
     }
