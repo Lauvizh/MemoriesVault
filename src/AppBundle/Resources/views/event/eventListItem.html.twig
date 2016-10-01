@@ -2,9 +2,9 @@
 	{% for event in events %}
 		<div class="row well">
 			<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-				<h2>{{ event.title }}</h2>
-				<p class="strong">du : {{ event.getStartDate()|date("d/m/Y") }} au : {{ event.getEndDate()|date("d/m/Y") }}</p>
-				<p>{{ event.summary|length > 180 ? event.summary|slice(0, 180) ~ '...' : event.summary  }}</p>
+				<h2><a href="{{ path('event', { 'id':event.id }) }}">{{ event.title }}</a></h2>
+				<p class="strong"><span class="label label-default">{{ event.getStartDate()|time_diff }}</span> from : {{ event.getStartDate()|date("d/m/Y") }} to : {{ event.getEndDate()|date("d/m/Y") }}</p>
+				<p>{{ event.summary|truncate(180) }}</p>
 				{% if event.getCountPhotos() or event.getCountVideos() %}
 					<p>
 						<span>
@@ -20,7 +20,7 @@
 			{% for media in event.getFirstsPhotos(6) %}
 				<div class="col-xs-4 col-sm-2 col-md-3 col-lg-4">
 					<div class="thumbnail">
-				      <img src="{{ path('lf_medias_photo', {'id':media.id, 'size':'190', 'squared':'1'}) }}" alt="{{ media.fileOldName }}">
+				      <img src="{{ path('photo', {'id':media.id, 'size':'190', 'squared':'1'}) }}" alt="{{ media.fileOldName }}">
 				    </div>
 				</div>
 			{% endfor %}

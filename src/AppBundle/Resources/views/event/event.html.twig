@@ -11,7 +11,7 @@
 {% if event.startDate and event.endDate %}
 	<div class="row">
 		<div class="col-xs-12">
-			<p class="strong">du : {{ event.getStartDate()|date("d/m/Y") }} au : {{ event.getEndDate()|date("d/m/Y") }}</p>
+			<p class="strong"><span class="label label-default">{{ event.getStartDate()|time_diff }}</span> From : {{ event.getStartDate()|date("d/m/Y") }} to : {{ event.getEndDate()|date("d/m/Y") }}</p>
 		</div>
 	</div>
 {% endif %}

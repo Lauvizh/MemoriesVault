@@ -28,7 +28,7 @@ class ThemeController extends Controller
     }
 
     /**
-     * @Route("/theme/{id}", name="themepage", requirements={"id": "\d+"})
+     * @Route("/theme/{id}", name="theme", requirements={"id": "\d+"})
      */
     public function themeAction($id)
     {
