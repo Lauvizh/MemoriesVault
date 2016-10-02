@@ -4,6 +4,7 @@ parameters:
 #    parameter_name: value
 
 services:
+  # Twig Extentions
   twig.extension.text:
     class: Twig_Extensions_Extension_Text
     tags:
@@ -20,3 +21,28 @@ services:
       - "@translator.default" 
     tags:
       - { name: twig.extension}
+
+  # Sonata Admin Bundle
+  admin.event:
+    class: AppBundle\Admin\EventAdmin
+    arguments: [~, AppBundle\Entity\Event, ~]
+    tags:
+        - { name: sonata.admin, manager_type: orm, label: Events }
+  
+  admin.theme:
+    class: AppBundle\Admin\ThemeAdmin
+    arguments: [~, AppBundle\Entity\Theme, ~]
+    tags:
+        - { name: sonata.admin, manager_type: orm, label: Themes }
+
+  admin.face:
+    class: AppBundle\Admin\FaceAdmin
+    arguments: [~, AppBundle\Entity\Face, ~]
+    tags:
+        - { name: sonata.admin, manager_type: orm, label: Faces }
+
+  admin.user:
+    class: AppBundle\Admin\UserAdmin
+    arguments: [~, AppBundle\Entity\User, ~]
+    tags:
+        - { name: sonata.admin, manager_type: orm, label: Users }

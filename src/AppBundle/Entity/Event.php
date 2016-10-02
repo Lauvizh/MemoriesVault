@@ -134,6 +134,10 @@ class Event
         $this->countPhotos = $this->countVideos = 0;
     }
 
+    public function __toString() {
+        return $this->title.' ('.$this->startDate->format('d-m-Y').')';
+    }
+
     /**
      * Set title
      *

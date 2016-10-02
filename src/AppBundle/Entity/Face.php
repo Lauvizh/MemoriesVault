@@ -35,6 +35,8 @@ class Face
      */
     private $lastname;
 
+    private $fullname;
+
     /**
      * @var \DateTime
      *
@@ -70,6 +72,10 @@ class Face
     public function __construct()
     {
         $this->facePlaces = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    public function __toString() {
+        return $this->getFullname();
     }
 
     /**
@@ -119,6 +125,13 @@ class Face
     {
         return $this->lastname;
     }
+
+    // get Fullname
+    public function getFullname()
+    {
+        return $this->firstname.' '.$this->lastname;
+    }
+
 
     /**
      * Set birthDate

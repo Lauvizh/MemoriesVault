@@ -19,13 +19,8 @@
 							<li class="dropdown">
 								<a href="#" class="dropdown-toggle btn-menu-admin" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> {{'app.word.admin'|trans({},'admin')|capitalize}}<span class="caret"></span></a>
 								<ul class="dropdown-menu dropdown-menu-right" role="menu">
-									<li><a class="btn-menu btn-menu-admin" href="#"><span class="glyphicon glyphicon-user"></span> {{ 'app.word.members'|trans({},'admin')|capitalize }}</a></li>
+									<li><a class="btn-menu btn-menu-admin" href="{{ path('sonata_admin') }}"><span class="glyphicon glyphicon-wrench"></span> {{ 'app.word.admin'|trans({},'admin')|capitalize }}</a></li>
 									<li><a class="btn-menu btn-menu-admin" href="#"><span class="glyphicon glyphicon-user"></span> {{ 'app.word.faces'|trans({},'admin')|capitalize }}</a></li>
-									<li><a class="btn-menu btn-menu-admin" href="#"><span class="glyphicon glyphicon-user"></span><span class="glyphicon glyphicon-trans({},'admin')fer"></span> {{ 'app.word.membersCo'|trans({},'admin')|capitalize }}</a></li>
-									<li><a class="btn-menu btn-menu-admin" href="#"><span class="glyphicon glyphicon-comment"></span> {{ 'app.word.comments'|trans({},'admin')|capitalize }}</a></li>
-									<li><a class="btn-menu btn-menu-admin" href="#"><span class="glyphicon glyphicon-star"></span> {{ 'app.word.events'|trans({},'admin')|capitalize }}</a></li>
-									<li><a class="btn-menu btn-menu-admin" href="#"><span class="glyphicon glyphicon-th"></span> {{ 'app.word.themes'|trans({},'admin')|capitalize }}</a></li>
-									<li><a class="btn-menu btn-menu-admin" href="#"><span class="glyphicon glyphicon-picture"></span> {{ 'app.word.medias'|trans({},'admin')|capitalize }}</a></li>
 								</ul>
 							</li>
 						{% endif %}
