@@ -1,0 +1,17 @@
+{% extends "AppBundle::App.html.twig" %}
+{% block title %}{{'app.word.admin'|trans|upper}} - {{'app.memoriesVault'|trans|title }}{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+{% endblock %}
+
+{% block navigation%}
+	{% include 'AppBundle::navigationAdmin.html.twig' %}
+{% endblock %}
+
+
+{% block content%}{% endblock %}
+
+{% block javascripts%}
+	{{ parent() }}
+{% endblock %}

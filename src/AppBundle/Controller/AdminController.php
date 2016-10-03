@@ -8,13 +8,13 @@ use Symfony\Component\HttpFoundation\Request;
 
 use AppBundle\Entity\User;
 
-class UserController extends Controller
+class AdminController extends Controller
 {
 	/**
-     * @Route("/user", name="user")
+     * @Route("/admin", name="admin")
      */
     public function indexAction()
     {
-        return $this->render('LFUserBundle:Default:index.html.twig');
+        return $this->render('AppBundle:admin:index.html.twig');
     }
 }

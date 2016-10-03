@@ -28,6 +28,8 @@
                 {% include 'AppBundle::footer.html.twig' %}
             {% endblock %}
         </footer>
-        {% block javascripts %}{% endblock %}
+        {% block javascripts %}
+            <script src="{{ asset('js/memories_vault.js') }}"></script>
+        {% endblock %}
     </body>
 </html>

@@ -13,21 +13,10 @@
 					<ul class="nav navbar-nav ">
 						<li><a class="btn-menu" href="{{ path('homepage') }}" ><span class="glyphicon glyphicon-th-large"></span> {{ 'app.word.home'|trans|capitalize }} </a></li>
 						{{ render(controller('AppBundle:Theme:getAllThemesMenu')) }}
-						<li><a class="btn-menu" href="{{ path('archive')}}"><span class="glyphicon glyphicon-calendar"></span> {{ 'app.word.archives'|trans|capitalize }} </a></li>
+						<li><a class="btn-menu" href=" {{ path('archive')}} "><span class="glyphicon glyphicon-calendar"></span> {{ 'app.word.archives'|trans|capitalize }} </a></li>
 						<li><a class="btn-menu" href="#"><span class="glyphicon glyphicon-user"></span> {{ 'app.word.faces'|trans|capitalize }} </a></li>
 						{% if is_granted('ROLE_ADMIN') %}
-							<li class="dropdown">
-								<a href="#" class="dropdown-toggle btn-menu-admin" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> {{'app.word.admin'|trans({},'admin')|capitalize}}<span class="caret"></span></a>
-								<ul class="dropdown-menu dropdown-menu-right" role="menu">
-									<li><a class="btn-menu btn-menu-admin" href="#"><span class="glyphicon glyphicon-user"></span> {{ 'app.word.members'|trans({},'admin')|capitalize }}</a></li>
-									<li><a class="btn-menu btn-menu-admin" href="#"><span class="glyphicon glyphicon-user"></span> {{ 'app.word.faces'|trans({},'admin')|capitalize }}</a></li>
-									<li><a class="btn-menu btn-menu-admin" href="#"><span class="glyphicon glyphicon-user"></span><span class="glyphicon glyphicon-trans({},'admin')fer"></span> {{ 'app.word.membersCo'|trans({},'admin')|capitalize }}</a></li>
-									<li><a class="btn-menu btn-menu-admin" href="#"><span class="glyphicon glyphicon-comment"></span> {{ 'app.word.comments'|trans({},'admin')|capitalize }}</a></li>
-									<li><a class="btn-menu btn-menu-admin" href="#"><span class="glyphicon glyphicon-star"></span> {{ 'app.word.events'|trans({},'admin')|capitalize }}</a></li>
-									<li><a class="btn-menu btn-menu-admin" href="#"><span class="glyphicon glyphicon-th"></span> {{ 'app.word.themes'|trans({},'admin')|capitalize }}</a></li>
-									<li><a class="btn-menu btn-menu-admin" href="#"><span class="glyphicon glyphicon-picture"></span> {{ 'app.word.medias'|trans({},'admin')|capitalize }}</a></li>
-								</ul>
-							</li>
+						<li><a class="btn-menu" href="{{ path('admin')}}"><span class="glyphicon glyphicon-wrench"></span> {{ 'app.word.admin'|trans|capitalize }} </a></li>
 						{% endif %}
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> {{ 'app.word.myAccount'|trans|capitalize }}<span class="caret"></span></a>
