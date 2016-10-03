@@ -1,0 +1,36 @@
+{% extends "AppBundle::layoutAdmin.html.twig" %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-xs-12">
+            <h1>Event edit</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            {{ form_start(edit_form) }}
+                {{ form_widget(edit_form) }}
+                <button class="btn btn-success" type="submit" value="Edit"><span class="glyphicon glyphicon-edit"></span> Edit</button>
+            {{ form_end(edit_form) }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="btn-group dropup">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="glyphicon glyphicon-cog"></span>Actions <span class="caret"></span>
+              </button>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a class="btn btn-default" href="{{ path('admin_event_index') }}"><span class="glyphicon glyphicon-list"></span> Back to the list</a>
+                    </li>
+                    <li>
+                        {{ form_start(delete_form) }}
+                        <button class="btn btn-danger" type="submit" value="Delete"><span class="glyphicon glyphicon-trash"></span> Delete</button>
+                        {{ form_end(delete_form) }}
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}

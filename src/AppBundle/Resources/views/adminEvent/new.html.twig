@@ -1,0 +1,22 @@
+{% extends "AppBundle::layoutAdmin.html.twig" %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-xs-12">
+            <h1>Event creation</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            {{ form_start(form) }}
+                {{ form_widget(form) }}
+                <button class="btn btn-success" type="submit" value="Create"><span class="glyphicon glyphicon-ok-sign"></span> Create</button>
+            {{ form_end(form) }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <a class="btn btn-default" href="{{ path('admin_event_index') }}"><span class="glyphicon glyphicon-list"></span> Back to the list</a>
+        </div>
+    </div>
+{% endblock %}

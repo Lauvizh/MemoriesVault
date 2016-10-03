@@ -1,0 +1,71 @@
+{% extends "AppBundle::layoutAdmin.html.twig" %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-xs-12">
+            <h1>Event list</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <a class="btn btn-success" href="{{ path('admin_event_new') }}">Create a new event</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Startdate</th>
+                        <th>Enddate</th>
+                        <th>Summary</th>
+                        <th>Creat/Modif</th>
+                        <th>Medias</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for event in events %}
+                    <tr>
+                        <td><a href="{{ path('admin_event_show', { 'id': event.id }) }}">{{ event.title }}</a></td>
+                        <td>{% if event.startDate %}{{ event.startDate|date('Y-m-d') }}{% endif %}</td>
+                        <td>{% if event.endDate %}{{ event.endDate|date('Y-m-d') }}{% endif %}</td>
+                        <td>{{ event.summary|truncate(50) }}</td>
+                        <td>
+                            {% if event.createdDate %}
+                                Created : {{ event.createdDate|date('Y-m-d H:i:s') }}
+                            {% endif %}
+                            {% if event.modifiedDate %}
+                                <br/>Modified : {{ event.modifiedDate|date('Y-m-d H:i:s') }}
+                            {% endif %}
+                            </td>
+                        <td>{{ event.countPhotos }}:photo(s)<br/>{{ event.countVideos }}: video(s)</td>
+                        <td></td>
+                        <td>
+                            <div class="btn-group">
+                              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="glyphicon glyphicon-cog"></span>Actions <span class="caret"></span>
+                              </button>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a href="{{ path('admin_event_show', { 'id': event.id }) }}"><span class="glyphicon glyphicon-file"></span> see</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ path('admin_event_edit', { 'id': event.id }) }}"><span class="glyphicon glyphicon-edit"></span> edit</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <a class="btn btn-success" href="{{ path('admin_event_new') }}">Create a new event</a>
+        </div>
+    </div>
+{% endblock %}

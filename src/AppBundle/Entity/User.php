@@ -95,6 +95,9 @@ class User implements UserInterface, \Serializable
         $this->roles = array();
     }
 
+    public function __toString() {
+        return $this->getFace()->getFullname();
+    }
 
     public function getSalt()
     {
@@ -481,5 +484,8 @@ class User implements UserInterface, \Serializable
         return $this->connections;
     }
 
+    public function getName(){
+        return $this->getFace()->getFullname();
+    }
 
 }
