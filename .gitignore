@@ -16,6 +16,11 @@
 !var/SymfonyRequirements.php
 /vendor/
 /web/bundles/
+/web/css/
+/web/js/
+/web/fonts/
+/web/images/
+/web/img/
 /*.sql
 /*.sql*
 *.sql.zip
