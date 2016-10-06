@@ -44,9 +44,12 @@ class UserEventViewed
      */
     private $viewedDate;
 
+    /**
+     * Constructor
+     */
     public function __construct()
     {
-        $this->viewedDate = new DateTime;
+        $this->viewedDate = new \DateTime;
     }
 
     /**

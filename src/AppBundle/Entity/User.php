@@ -56,7 +56,7 @@ class User implements UserInterface, \Serializable
 
     /**
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\Face", cascade={"remove"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $face;
 
@@ -89,12 +89,19 @@ class User implements UserInterface, \Serializable
      */
     private $connections;
 
+    /**
+     * Constructor
+     */
     public function __construct()
     {
         $this->isActive = true;
         $this->roles = array();
+        $this->addDate = new \Datetime;
     }
 
+    /**
+     * To String
+     */
     public function __toString() {
         return $this->getFace()->getFullname();
     }

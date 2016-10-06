@@ -48,6 +48,21 @@ class MediaComment
     private $user;
     
     /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->date = new \DateTime;
+    }
+
+    /**
+     * To String
+     */
+    public function __toString() {
+        return $this->getContent();
+    }
+
+    /**
      * Get id
      *
      * @return int

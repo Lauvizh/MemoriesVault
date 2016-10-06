@@ -40,14 +40,14 @@ class Face
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="birth_date", type="datetime")
+     * @ORM\Column(name="birth_date", type="datetime", nullable=true)
      */
     private $birthDate;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="portrait_file_name", type="string", length=255)
+     * @ORM\Column(name="portrait_file_name", type="string", length=255, nullable=true)
      */
     private $portraitFileName;
 
@@ -56,6 +56,23 @@ class Face
      * @ORM\JoinColumn(nullable=true)
      */
     private $facePlaces;
+
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->facePlaces = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * To String
+     */
+    public function __toString() {
+        return $this->getFullname();
+    }
+
 
     /**
      * Get id
@@ -66,17 +83,7 @@ class Face
     {
         return $this->id;
     }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->facePlaces = new \Doctrine\Common\Collections\ArrayCollection();
-    }
 
-    public function __toString() {
-        return $this->getFullname();
-    }
 
     /**
      * Set firstname

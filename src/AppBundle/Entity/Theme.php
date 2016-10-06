@@ -51,8 +51,11 @@ class Theme
         $this->homePage = false;
     }
 
+    /**
+     * To String
+     */
     public function __toString() {
-        return $this->name;
+        return $this->getName();
     }
 
 

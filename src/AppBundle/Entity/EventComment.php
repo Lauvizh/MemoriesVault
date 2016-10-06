@@ -37,7 +37,7 @@ class EventComment
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Event", inversedBy="comments")
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\JoinColumn(nullable=false)
      */
     private $event;
 
@@ -47,6 +47,20 @@ class EventComment
      */
     private $user;
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->date = new \DateTime;
+    }
+
+    /**
+     * To String
+     */
+    public function __toString() {
+        return $this->getContent();
+    }
     /**
      * Get id
      *

@@ -25,44 +25,44 @@ class Media
     /**
      * @var string
      *
-     * @ORM\Column(name="type", type="string", length=10)
+     * @ORM\Column(name="type", type="string", length=10, nullable=true)
      */
     private $type;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="size_ko", type="decimal", precision=10, scale=0)
+     * @ORM\Column(name="size_ko", type="decimal", precision=10, scale=0, nullable=true)
      */
     private $sizeKo;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="file_old_name", type="string", length=255)
+     * @ORM\Column(name="file_old_name", type="string", length=255, nullable=true)
      */
     private $fileOldName;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255)
+     * @ORM\Column(name="name", type="string", length=255, nullable=true)
      */
     private $name;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="folder", type="string", length=255)
+     * @ORM\Column(name="folder", type="string", length=255, nullable=true)
      */
     private $folder;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="added", type="datetime")
+     * @ORM\Column(name="add_date", type="datetime")
      */
-    private $added;
+    private $addDate;
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Event", inversedBy="medias")
@@ -73,119 +73,119 @@ class Media
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="pdv_date", type="datetime")
+     * @ORM\Column(name="pdv_date", type="datetime", nullable=true)
      */
     private $pdvDate;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="title", type="string", length=255)
+     * @ORM\Column(name="title", type="string", length=255, nullable=true)
      */
     private $title;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="camera", type="string", length=255)
+     * @ORM\Column(name="camera", type="string", length=255, nullable=true)
      */
     private $camera;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="focal", type="string", length=255)
+     * @ORM\Column(name="focal", type="string", length=255, nullable=true)
      */
     private $focal;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="focal_35", type="string", length=255)
+     * @ORM\Column(name="focal_35", type="string", length=255, nullable=true)
      */
     private $focal35;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="iso", type="string", length=255)
+     * @ORM\Column(name="iso", type="string", length=255, nullable=true)
      */
     private $iso;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="speed", type="string", length=255)
+     * @ORM\Column(name="speed", type="string", length=255, nullable=true)
      */
     private $speed;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="aperture", type="string", length=255)
+     * @ORM\Column(name="aperture", type="string", length=255, nullable=true)
      */
     private $aperture;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="height", type="integer")
+     * @ORM\Column(name="height", type="integer", nullable=true)
      */
     private $height;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="width", type="integer")
+     * @ORM\Column(name="width", type="integer", nullable=true)
      */
     private $width;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="duration", type="string", length=255)
+     * @ORM\Column(name="duration", type="string", length=255, nullable=true)
      */
     private $duration;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="start_date", type="datetime")
+     * @ORM\Column(name="start_date", type="datetime", nullable=true)
      */
     private $startDate;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="end_date", type="datetime")
+     * @ORM\Column(name="end_date", type="datetime", nullable=true)
      */
     private $endDate;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="video_set", type="string", length=255)
+     * @ORM\Column(name="video_set", type="string", length=255, nullable=true)
      */
     private $videoSet;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="gps_lat", type="string", length=255)
+     * @ORM\Column(name="gps_lat", type="string", length=255, nullable=true)
      */
     private $gpsLat;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="gps_lon", type="string", length=255)
+     * @ORM\Column(name="gps_lon", type="string", length=255, nullable=true)
      */
     private $gpsLon;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="infos", type="string", length=6400)
+     * @ORM\Column(name="infos", type="string", length=6400, nullable=true)
      */
     private $infos;
 
@@ -202,6 +202,23 @@ class Media
     private $comments;
 
     /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->addDate = new \DateTime;
+        $this->facePlaces = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->comments = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * To String
+     */
+    public function __toString() {
+        return $this->getFileOldName();
+    }
+
+    /**
      * Get id
      *
      * @return int
@@ -209,14 +226,6 @@ class Media
     public function getId()
     {
         return $this->id;
-    }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->facePlaces = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->comments = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -338,29 +347,29 @@ class Media
     {
         return $this->folder;
     }
-
+    
     /**
-     * Set added
+     * Set addDate
      *
-     * @param \DateTime $added
+     * @param \DateTime $addDate
      *
      * @return Media
      */
-    public function setAdded($added)
+    public function setAddDate($addDate)
     {
-        $this->added = $added;
+        $this->addDate = $addDate;
 
         return $this;
     }
 
     /**
-     * Get added
+     * Get addDate
      *
      * @return \DateTime
      */
-    public function getAdded()
+    public function getAddDate()
     {
-        return $this->added;
+        return $this->addDate;
     }
 
     /**
@@ -917,4 +926,6 @@ class Media
         return $this;
 
         }
+
+
 }

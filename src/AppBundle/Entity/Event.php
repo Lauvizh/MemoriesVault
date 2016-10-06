@@ -61,7 +61,7 @@ class Event
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="modified_date", type="datetime")
+     * @ORM\Column(name="modified_date", type="datetime", nullable=true)
      */
     private $modifiedDate;
 
@@ -91,14 +91,14 @@ class Event
     /**
      * @var int
      *
-     * @ORM\Column(name="count_photos", type="integer")
+     * @ORM\Column(name="count_photos", type="integer", nullable=true)
      */
     private $countPhotos;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="count_videos", type="integer")
+     * @ORM\Column(name="count_videos", type="integer", nullable=true)
      */
     private $countVideos;
 
@@ -114,15 +114,6 @@ class Event
     private $viewedByUsers;
 
     /**
-     * Get id
-     *
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-    /**
      * Constructor
      */
     public function __construct()
@@ -132,6 +123,23 @@ class Event
         $this->medias = new \Doctrine\Common\Collections\ArrayCollection();
         $this->createdDate = $this->modifiedDate = new \DateTime();
         $this->countPhotos = $this->countVideos = 0;
+    }
+
+    /**
+     * To String
+     */
+    public function __toString() {
+        return $this->getTitle();
+    }
+
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
     }
 
     /**
