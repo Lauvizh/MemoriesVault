@@ -1,0 +1,83 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Media list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Type</th>
+                <th>Sizeko</th>
+                <th>Fileoldname</th>
+                <th>Name</th>
+                <th>Folder</th>
+                <th>Adddate</th>
+                <th>Pdvdate</th>
+                <th>Title</th>
+                <th>Camera</th>
+                <th>Focal</th>
+                <th>Focal35</th>
+                <th>Iso</th>
+                <th>Speed</th>
+                <th>Aperture</th>
+                <th>Height</th>
+                <th>Width</th>
+                <th>Duration</th>
+                <th>Startdate</th>
+                <th>Enddate</th>
+                <th>Videoset</th>
+                <th>Gpslat</th>
+                <th>Gpslon</th>
+                <th>Infos</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for medium in media %}
+            <tr>
+                <td><a href="{{ path('admin_media_show', { 'id': medium.id }) }}">{{ medium.id }}</a></td>
+                <td>{{ medium.type }}</td>
+                <td>{{ medium.sizeKo }}</td>
+                <td>{{ medium.fileOldName }}</td>
+                <td>{{ medium.name }}</td>
+                <td>{{ medium.folder }}</td>
+                <td>{% if medium.addDate %}{{ medium.addDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if medium.pdvDate %}{{ medium.pdvDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ medium.title }}</td>
+                <td>{{ medium.camera }}</td>
+                <td>{{ medium.focal }}</td>
+                <td>{{ medium.focal35 }}</td>
+                <td>{{ medium.iso }}</td>
+                <td>{{ medium.speed }}</td>
+                <td>{{ medium.aperture }}</td>
+                <td>{{ medium.height }}</td>
+                <td>{{ medium.width }}</td>
+                <td>{{ medium.duration }}</td>
+                <td>{% if medium.startDate %}{{ medium.startDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if medium.endDate %}{{ medium.endDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ medium.videoSet }}</td>
+                <td>{{ medium.gpsLat }}</td>
+                <td>{{ medium.gpsLon }}</td>
+                <td>{{ medium.infos }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('admin_media_show', { 'id': medium.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('admin_media_edit', { 'id': medium.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('admin_media_new') }}">Create a new entry</a>
+        </li>
+    </ul>
+{% endblock %}

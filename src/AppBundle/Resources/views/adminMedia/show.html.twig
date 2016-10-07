@@ -1,0 +1,120 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Media</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ medium.id }}</td>
+            </tr>
+            <tr>
+                <th>Type</th>
+                <td>{{ medium.type }}</td>
+            </tr>
+            <tr>
+                <th>Sizeko</th>
+                <td>{{ medium.sizeKo }}</td>
+            </tr>
+            <tr>
+                <th>Fileoldname</th>
+                <td>{{ medium.fileOldName }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ medium.name }}</td>
+            </tr>
+            <tr>
+                <th>Folder</th>
+                <td>{{ medium.folder }}</td>
+            </tr>
+            <tr>
+                <th>Adddate</th>
+                <td>{% if medium.addDate %}{{ medium.addDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Pdvdate</th>
+                <td>{% if medium.pdvDate %}{{ medium.pdvDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ medium.title }}</td>
+            </tr>
+            <tr>
+                <th>Camera</th>
+                <td>{{ medium.camera }}</td>
+            </tr>
+            <tr>
+                <th>Focal</th>
+                <td>{{ medium.focal }}</td>
+            </tr>
+            <tr>
+                <th>Focal35</th>
+                <td>{{ medium.focal35 }}</td>
+            </tr>
+            <tr>
+                <th>Iso</th>
+                <td>{{ medium.iso }}</td>
+            </tr>
+            <tr>
+                <th>Speed</th>
+                <td>{{ medium.speed }}</td>
+            </tr>
+            <tr>
+                <th>Aperture</th>
+                <td>{{ medium.aperture }}</td>
+            </tr>
+            <tr>
+                <th>Height</th>
+                <td>{{ medium.height }}</td>
+            </tr>
+            <tr>
+                <th>Width</th>
+                <td>{{ medium.width }}</td>
+            </tr>
+            <tr>
+                <th>Duration</th>
+                <td>{{ medium.duration }}</td>
+            </tr>
+            <tr>
+                <th>Startdate</th>
+                <td>{% if medium.startDate %}{{ medium.startDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Enddate</th>
+                <td>{% if medium.endDate %}{{ medium.endDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Videoset</th>
+                <td>{{ medium.videoSet }}</td>
+            </tr>
+            <tr>
+                <th>Gpslat</th>
+                <td>{{ medium.gpsLat }}</td>
+            </tr>
+            <tr>
+                <th>Gpslon</th>
+                <td>{{ medium.gpsLon }}</td>
+            </tr>
+            <tr>
+                <th>Infos</th>
+                <td>{{ medium.infos }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('admin_media_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('admin_media_edit', { 'id': medium.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

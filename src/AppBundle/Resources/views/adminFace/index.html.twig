@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Face list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Firstname</th>
+                <th>Lastname</th>
+                <th>Birthdate</th>
+                <th>Portraitfilename</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for face in faces %}
+            <tr>
+                <td><a href="{{ path('admin_face_show', { 'id': face.id }) }}">{{ face.id }}</a></td>
+                <td>{{ face.firstname }}</td>
+                <td>{{ face.lastname }}</td>
+                <td>{% if face.birthDate %}{{ face.birthDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ face.portraitFileName }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('admin_face_show', { 'id': face.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('admin_face_edit', { 'id': face.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('admin_face_new') }}">Create a new entry</a>
+        </li>
+    </ul>
+{% endblock %}

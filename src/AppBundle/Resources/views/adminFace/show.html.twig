@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Face</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ face.id }}</td>
+            </tr>
+            <tr>
+                <th>Firstname</th>
+                <td>{{ face.firstname }}</td>
+            </tr>
+            <tr>
+                <th>Lastname</th>
+                <td>{{ face.lastname }}</td>
+            </tr>
+            <tr>
+                <th>Birthdate</th>
+                <td>{% if face.birthDate %}{{ face.birthDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Portraitfilename</th>
+                <td>{{ face.portraitFileName }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('admin_face_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('admin_face_edit', { 'id': face.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}
