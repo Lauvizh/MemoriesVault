@@ -55,7 +55,7 @@ class User implements UserInterface, \Serializable
     private $addDate;
 
     /**
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Face", cascade={"remove"})
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Face", cascade={"remove"}, mappedBy="user")
      * @ORM\JoinColumn(nullable=true)
      */
     private $face;

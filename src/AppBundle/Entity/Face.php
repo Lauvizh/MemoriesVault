@@ -22,6 +22,12 @@ class Face
     private $id;
 
     /**
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\User", inversedBy="face")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $user;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="firstname", type="string", length=255)
@@ -220,5 +226,29 @@ class Face
     public function getFacePlaces()
     {
         return $this->facePlaces;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \AppBundle\Entity\User $user
+     *
+     * @return Face
+     */
+    public function setUser(\AppBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \AppBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }
