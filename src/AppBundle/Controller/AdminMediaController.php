@@ -19,17 +19,26 @@ class AdminMediaController extends Controller
     /**
      * Lists all Media entities.
      *
-     * @Route("/", name="admin_media_index")
-     * @Method("GET")
+     * @Route("/{page}", name="admin_media_index", requirements={"page": "\d+"})
      */
-    public function indexAction()
+    public function indexAction($page=1, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $media = $em->getRepository('AppBundle:Media')->findAll();
+        $query = $em->getRepository('AppBundle:Media')->findAll();
 
-        return $this->render('media/index.html.twig', array(
-            'media' => $media,
+        $paginator  = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+            $query, /* query NOT result */
+            $request->query->getInt('page', $page)/*page number*/,
+            50/*limit per page*/
+
+            );
+        
+        $pagination->setUsedRoute('archive');
+
+        return $this->render('AppBundle:adminMedia:index.html.twig', array(
+            'media' => $pagination,
         ));
     }
 
@@ -53,7 +62,7 @@ class AdminMediaController extends Controller
             return $this->redirectToRoute('admin_media_show', array('id' => $medium->getId()));
         }
 
-        return $this->render('media/new.html.twig', array(
+        return $this->render('AppBundle:adminMedia:new.html.twig', array(
             'medium' => $medium,
             'form' => $form->createView(),
         ));
@@ -62,14 +71,14 @@ class AdminMediaController extends Controller
     /**
      * Finds and displays a Media entity.
      *
-     * @Route("/{id}", name="admin_media_show")
+     * @Route("/show/{id}", name="admin_media_show")
      * @Method("GET")
      */
     public function showAction(Media $medium)
     {
         $deleteForm = $this->createDeleteForm($medium);
 
-        return $this->render('media/show.html.twig', array(
+        return $this->render('AppBundle:adminMedia:show.html.twig', array(
             'medium' => $medium,
             'delete_form' => $deleteForm->createView(),
         ));
@@ -78,7 +87,7 @@ class AdminMediaController extends Controller
     /**
      * Displays a form to edit an existing Media entity.
      *
-     * @Route("/{id}/edit", name="admin_media_edit")
+     * @Route("/edit/{id}", name="admin_media_edit")
      * @Method({"GET", "POST"})
      */
     public function editAction(Request $request, Media $medium)
@@ -95,7 +104,7 @@ class AdminMediaController extends Controller
             return $this->redirectToRoute('admin_media_edit', array('id' => $medium->getId()));
         }
 
-        return $this->render('media/edit.html.twig', array(
+        return $this->render('AppBundle:adminMedia:edit.html.twig', array(
             'medium' => $medium,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -105,7 +114,7 @@ class AdminMediaController extends Controller
     /**
      * Deletes a Media entity.
      *
-     * @Route("/{id}", name="admin_media_delete")
+     * @Route("/delete/{id}", name="admin_media_delete")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, Media $medium)

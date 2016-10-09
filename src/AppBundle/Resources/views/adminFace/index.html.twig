@@ -1,45 +1,55 @@
-{% extends 'base.html.twig' %}
+{% extends "AppBundle::layoutAdmin.html.twig" %}
 
-{% block body %}
-    <h1>Face list</h1>
-
-    <table>
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Firstname</th>
-                <th>Lastname</th>
-                <th>Birthdate</th>
-                <th>Portraitfilename</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for face in faces %}
-            <tr>
-                <td><a href="{{ path('admin_face_show', { 'id': face.id }) }}">{{ face.id }}</a></td>
-                <td>{{ face.firstname }}</td>
-                <td>{{ face.lastname }}</td>
-                <td>{% if face.birthDate %}{{ face.birthDate|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{{ face.portraitFileName }}</td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('admin_face_show', { 'id': face.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('admin_face_edit', { 'id': face.id }) }}">edit</a>
-                        </li>
-                    </ul>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <ul>
-        <li>
-            <a href="{{ path('admin_face_new') }}">Create a new entry</a>
-        </li>
-    </ul>
+{% block content %}
+    <div class="row">
+        <div class="col-xs-12">
+            <h1>Face list</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <a class="btn btn-success" href="{{ path('admin_face_new') }}">Create a new face</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Fullname</th>
+                        <th>Birthdate</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for face in faces %}
+                    <tr>
+                        <td><a href="{{ path('admin_face_show', { 'id': face.id }) }}">{{ face.lastname }} {{ face.firstname }}</a></td>
+                        <td>{% if face.birthDate %}{{ face.birthDate|date('d-m-Y') }}{% endif %}</td>
+                        <td>
+                            <div class="btn-group">
+                              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="glyphicon glyphicon-cog"></span>Actions <span class="caret"></span>
+                              </button>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a href="{{ path('admin_face_show', { 'id': face.id }) }}"><span class="glyphicon glyphicon-file"></span> see</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ path('admin_face_edit', { 'id': face.id }) }}"><span class="glyphicon glyphicon-edit"></span> edit</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <a class="btn btn-success" href="{{ path('admin_face_new') }}">Create a new face</a>
+        </div>
+    </div>
 {% endblock %}

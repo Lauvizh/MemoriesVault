@@ -4,6 +4,7 @@ namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class FaceType extends AbstractType
@@ -17,9 +18,7 @@ class FaceType extends AbstractType
         $builder
             ->add('firstname')
             ->add('lastname')
-            ->add('birthDate', 'datetime')
-            ->add('portraitFileName')
-            ->add('user')
+            ->add('birthDate', DateTimeType::class)
         ;
     }
     

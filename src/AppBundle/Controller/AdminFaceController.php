@@ -28,7 +28,7 @@ class AdminFaceController extends Controller
 
         $faces = $em->getRepository('AppBundle:Face')->findAll();
 
-        return $this->render('face/index.html.twig', array(
+        return $this->render('AppBundle:adminFace:index.html.twig', array(
             'faces' => $faces,
         ));
     }
@@ -53,7 +53,7 @@ class AdminFaceController extends Controller
             return $this->redirectToRoute('admin_face_show', array('id' => $face->getId()));
         }
 
-        return $this->render('face/new.html.twig', array(
+        return $this->render('AppBundle:adminFace:new.html.twig', array(
             'face' => $face,
             'form' => $form->createView(),
         ));
@@ -69,7 +69,7 @@ class AdminFaceController extends Controller
     {
         $deleteForm = $this->createDeleteForm($face);
 
-        return $this->render('face/show.html.twig', array(
+        return $this->render('AppBundle:adminFace:show.html.twig', array(
             'face' => $face,
             'delete_form' => $deleteForm->createView(),
         ));
@@ -95,7 +95,7 @@ class AdminFaceController extends Controller
             return $this->redirectToRoute('admin_face_edit', array('id' => $face->getId()));
         }
 
-        return $this->render('face/edit.html.twig', array(
+        return $this->render('AppBundle:adminFace:edit.html.twig', array(
             'face' => $face,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),

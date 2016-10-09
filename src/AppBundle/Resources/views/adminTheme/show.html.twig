@@ -1,14 +1,14 @@
-{% extends 'base.html.twig' %}
+{% extends "AppBundle::layoutAdmin.html.twig" %}
 
-{% block body %}
-    <h1>Theme</h1>
+{% block content %}
+    <div class="row">
+        <div class="col-xs-12">
+            <h1>Theme</h1>
+        </div>
+    </div>
 
-    <table>
+    <table class="table table-striped table-hover">
         <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ theme.id }}</td>
-            </tr>
             <tr>
                 <th>Name</th>
                 <td>{{ theme.name }}</td>
@@ -17,19 +17,25 @@
                 <th>Homepage</th>
                 <td>{% if theme.homePage %}Yes{% else %}No{% endif %}</td>
             </tr>
+            <tr>
+                <th>Nb events</th>
+                <td>
+                    {{ theme.events|length }}
+                </td>
+            </tr>
         </tbody>
     </table>
 
-    <ul>
+    <ul class="list-unstyled list-inline">
         <li>
-            <a href="{{ path('admin_theme_index') }}">Back to the list</a>
+            <a class="btn btn-info" href="{{ path('admin_theme_index') }}"><span class="glyphicon glyphicon-list"></span> Back to the list</a>
         </li>
         <li>
-            <a href="{{ path('admin_theme_edit', { 'id': theme.id }) }}">Edit</a>
+            <a class="btn btn-success" href="{{ path('admin_theme_edit', { 'id': theme.id }) }}"><span class="glyphicon glyphicon-edit"></span> Edit</a>
         </li>
         <li>
             {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
+                <button class="btn btn-danger" type="submit" value="Delete"><span class="glyphicon glyphicon-trash"></span> Delete</button>
             {{ form_end(delete_form) }}
         </li>
     </ul>

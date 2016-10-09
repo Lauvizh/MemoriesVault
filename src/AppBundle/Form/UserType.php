@@ -4,6 +4,8 @@ namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class UserType extends AbstractType
@@ -20,9 +22,13 @@ class UserType extends AbstractType
             ->add('password')
             ->add('email')
             ->add('isActive')
-            ->add('addDate', 'datetime')
-            ->add('face')
-            ->add('viweableEvents')
+            ->add('addDate', DateTimeType::class)
+            ->add('face', FaceType::class)
+            ->add('viweableEvents',EntityType::class,array(
+                'class' =>      'AppBundle:Event',
+                'choice_label' =>   'title',
+                'multiple' =>   true,
+                'expanded' => true))
         ;
     }
     

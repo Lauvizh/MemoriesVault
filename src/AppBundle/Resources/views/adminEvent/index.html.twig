@@ -17,8 +17,7 @@
                 <thead>
                     <tr>
                         <th>Title</th>
-                        <th>Startdate</th>
-                        <th>Enddate</th>
+                        <th>Dates</th>
                         <th>Summary</th>
                         <th>Creat/Modif</th>
                         <th>Medias</th>
@@ -29,9 +28,11 @@
                 {% for event in events %}
                     <tr>
                         <td><a href="{{ path('admin_event_show', { 'id': event.id }) }}">{{ event.title }}</a></td>
-                        <td>{% if event.startDate %}{{ event.startDate|date('Y-m-d') }}{% endif %}</td>
-                        <td>{% if event.endDate %}{{ event.endDate|date('Y-m-d') }}{% endif %}</td>
-                        <td>{{ event.summary|truncate(50) }}</td>
+                        <td>
+                            {% if event.startDate %}From : {{ event.startDate|date('Y-m-d') }}<br/>{% endif %}
+                            {% if event.endDate %}To : {{ event.endDate|date('Y-m-d') }}{% endif %}
+                        </td>
+                        <td>{{ event.summary|truncate(30) }}</td>
                         <td>
                             {% if event.createdDate %}
                                 Created : {{ event.createdDate|date('Y-m-d H:i:s') }}
@@ -40,7 +41,10 @@
                                 <br/>Modified : {{ event.modifiedDate|date('Y-m-d H:i:s') }}
                             {% endif %}
                             </td>
-                        <td>{{ event.countPhotos }}:photo(s)<br/>{{ event.countVideos }}: video(s)</td>
+                        <td>
+                            {% if event.countPhotos %}<span class="badge">{{ event.countPhotos }} <span class="glyphicon glyphicon-camera"></span></span><br/>{% endif %}
+                            {% if event.countVideos %}<span class="badge">{{ event.countVideos }} <span class="glyphicon glyphicon-film"></span></span>{% endif %}
+                        </td>
                         <td></td>
                         <td>
                             <div class="btn-group">

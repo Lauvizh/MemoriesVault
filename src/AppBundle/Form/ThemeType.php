@@ -4,6 +4,7 @@ namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ThemeType extends AbstractType
@@ -17,7 +18,11 @@ class ThemeType extends AbstractType
         $builder
             ->add('name')
             ->add('homePage')
-            ->add('events')
+            ->add('events',EntityType::class,array(
+                'class' =>      'AppBundle:Event',
+                'choice_label' =>   'title',
+                'multiple' =>   true,
+                'expanded' => true))
         ;
     }
     

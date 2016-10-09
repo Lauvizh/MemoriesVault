@@ -14,7 +14,7 @@ use AppBundle\Form\UserType;
  *
  * @Route("/admin/user")
  */
-class UserController extends Controller
+class AdminUserController extends Controller
 {
     /**
      * Lists all User entities.
@@ -28,7 +28,7 @@ class UserController extends Controller
 
         $users = $em->getRepository('AppBundle:User')->findAll();
 
-        return $this->render('user/index.html.twig', array(
+        return $this->render('AppBundle:adminUser:index.html.twig', array(
             'users' => $users,
         ));
     }
@@ -53,7 +53,7 @@ class UserController extends Controller
             return $this->redirectToRoute('admin_user_show', array('id' => $user->getId()));
         }
 
-        return $this->render('user/new.html.twig', array(
+        return $this->render('AppBundle:adminUser:new.html.twig', array(
             'user' => $user,
             'form' => $form->createView(),
         ));
@@ -69,7 +69,7 @@ class UserController extends Controller
     {
         $deleteForm = $this->createDeleteForm($user);
 
-        return $this->render('user/show.html.twig', array(
+        return $this->render('AppBundle:adminUser:show.html.twig', array(
             'user' => $user,
             'delete_form' => $deleteForm->createView(),
         ));
@@ -95,7 +95,7 @@ class UserController extends Controller
             return $this->redirectToRoute('admin_user_edit', array('id' => $user->getId()));
         }
 
-        return $this->render('user/edit.html.twig', array(
+        return $this->render('AppBundle:adminUser:edit.html.twig', array(
             'user' => $user,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),

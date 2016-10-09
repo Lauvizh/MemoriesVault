@@ -1,83 +1,93 @@
-{% extends 'base.html.twig' %}
+{% extends "AppBundle::layoutAdmin.html.twig" %}
 
-{% block body %}
-    <h1>Media list</h1>
-
-    <table>
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Type</th>
-                <th>Sizeko</th>
-                <th>Fileoldname</th>
-                <th>Name</th>
-                <th>Folder</th>
-                <th>Adddate</th>
-                <th>Pdvdate</th>
-                <th>Title</th>
-                <th>Camera</th>
-                <th>Focal</th>
-                <th>Focal35</th>
-                <th>Iso</th>
-                <th>Speed</th>
-                <th>Aperture</th>
-                <th>Height</th>
-                <th>Width</th>
-                <th>Duration</th>
-                <th>Startdate</th>
-                <th>Enddate</th>
-                <th>Videoset</th>
-                <th>Gpslat</th>
-                <th>Gpslon</th>
-                <th>Infos</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for medium in media %}
-            <tr>
-                <td><a href="{{ path('admin_media_show', { 'id': medium.id }) }}">{{ medium.id }}</a></td>
-                <td>{{ medium.type }}</td>
-                <td>{{ medium.sizeKo }}</td>
-                <td>{{ medium.fileOldName }}</td>
-                <td>{{ medium.name }}</td>
-                <td>{{ medium.folder }}</td>
-                <td>{% if medium.addDate %}{{ medium.addDate|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{% if medium.pdvDate %}{{ medium.pdvDate|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{{ medium.title }}</td>
-                <td>{{ medium.camera }}</td>
-                <td>{{ medium.focal }}</td>
-                <td>{{ medium.focal35 }}</td>
-                <td>{{ medium.iso }}</td>
-                <td>{{ medium.speed }}</td>
-                <td>{{ medium.aperture }}</td>
-                <td>{{ medium.height }}</td>
-                <td>{{ medium.width }}</td>
-                <td>{{ medium.duration }}</td>
-                <td>{% if medium.startDate %}{{ medium.startDate|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{% if medium.endDate %}{{ medium.endDate|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{{ medium.videoSet }}</td>
-                <td>{{ medium.gpsLat }}</td>
-                <td>{{ medium.gpsLon }}</td>
-                <td>{{ medium.infos }}</td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('admin_media_show', { 'id': medium.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('admin_media_edit', { 'id': medium.id }) }}">edit</a>
-                        </li>
-                    </ul>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <ul>
-        <li>
-            <a href="{{ path('admin_media_new') }}">Create a new entry</a>
-        </li>
-    </ul>
+{% block content %}
+    <div class="row">
+        <div class="col-xs-12">
+            <h1>Media list</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <a class="btn btn-success" href="{{ path('admin_media_new') }}">Create a new media</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Type</th>
+                        <th>Folder</th>
+                        <th>Adddate</th>
+                        <th>Pdvdate</th>
+                        <th>Title</th>
+                        <th>Metadatas</th>
+                        <th>Size</th>
+                        <th>Duration</th>
+                        <th>Startdate</th>
+                        <th>Enddate</th>
+                        <th>Videoset</th>
+                        <th>Coord</th>
+                        <th>Infos</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for medium in media %}
+                    <tr>
+                        <td><a href="{{ path('admin_media_show', { 'id': medium.id }) }}">{{ medium.id }}</a></td>
+                        <td>{{ medium.type }}</td>
+                        <td>{{ medium.folder }}</td>
+                        <td>{% if medium.addDate %}{{ medium.addDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+                        <td>{% if medium.pdvDate %}{{ medium.pdvDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+                        <td>{{ medium.title }}</td>
+                        <td>
+                            {% if medium.camera %} Caméra : {{ medium.camera }}<br/>{% endif %}
+                            {% if medium.focal %} Focal : {{ medium.focal }}<br/>{% endif %}
+                            {% if medium.focal35 %} Focal 35mm: {{ medium.focal35 }}<br/>{% endif %}
+                            {% if medium.iso %} Iso : {{ medium.iso }}<br/>{% endif %}
+                            {% if medium.speed %} Speed : {{ medium.speed }}<br/>{% endif %}
+                            {% if medium.aperture %} Aperture : {{ medium.aperture }}<br/>{% endif %}
+                        </td>
+                        <td>{{ medium.height }}px x {{ medium.width }}px</td>
+                        <td>{{ medium.duration }}</td>
+                        <td>{% if medium.startDate %}{{ medium.startDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+                        <td>{% if medium.endDate %}{{ medium.endDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+                        <td>{{ medium.videoSet }}</td>
+                        <td>Lat : {{ medium.gpsLat }}<br/> Lon : {{ medium.gpsLon }}</td>
+                        <td>{{ medium.infos }}</td>
+                        <td>
+                            <div class="btn-group">
+                              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="glyphicon glyphicon-cog"></span>Actions <span class="caret"></span>
+                              </button>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a href="{{ path('admin_media_show', { 'id': medium.id }) }}"><span class="glyphicon glyphicon-file"></span> see</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ path('admin_media_edit', { 'id': medium.id }) }}"><span class="glyphicon glyphicon-edit"></span> edit</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="navigation">
+                {{ knp_pagination_render(media) }}
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <a class="btn btn-success" href="{{ path('admin_media_new') }}">Create a new media</a>
+        </div>
+    </div>
 {% endblock %}
