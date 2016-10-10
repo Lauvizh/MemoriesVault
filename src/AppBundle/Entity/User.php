@@ -55,7 +55,7 @@ class User implements UserInterface, \Serializable
     private $addDate;
 
     /**
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Face", cascade={"remove"}, mappedBy="user")
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Face", cascade={"persist"}, mappedBy="user")
      * @ORM\JoinColumn(nullable=true)
      */
     private $face;
@@ -95,7 +95,7 @@ class User implements UserInterface, \Serializable
     public function __construct()
     {
         $this->isActive = true;
-        $this->roles = array();
+        $this->roles = array('ROLE_USER');
         $this->addDate = new \Datetime;
     }
 

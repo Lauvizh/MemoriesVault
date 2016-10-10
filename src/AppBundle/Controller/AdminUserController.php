@@ -47,6 +47,11 @@ class AdminUserController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            //----------------------
+            $encoder = $this->container->get('security.password_encoder');
+            $encoded = $encoder->encodePassword($user, $user->getPassword());
+            $user->setPassword($encoded);
+            //----------------------
             $em->persist($user);
             $em->flush();
 
@@ -84,7 +89,7 @@ class AdminUserController extends Controller
     public function editAction(Request $request, User $user)
     {
         $deleteForm = $this->createDeleteForm($user);
-        $editForm = $this->createForm('AppBundle\Form\UserType', $user);
+        $editForm = $this->createForm('AppBundle\Form\UserType', $user)->remove('password');
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
