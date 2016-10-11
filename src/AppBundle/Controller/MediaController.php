@@ -15,27 +15,28 @@ class MediaController extends Controller
 {
 
     /**
-     * @Route("/photo/{id}/{size}/{squared}", name="photo", requirements={"id": "\d+","size": "\d+","squared": "\d+"})
+     * @Route("/photo/{ratio}/{id}/{size}.{extention}", name="photo", requirements={"id": "\d+","size": "\d+"})
      */
-    public function photoAction($id,$size=0,$squared=0)
+    public function photoAction($id,$size=0,$ratio="original",$extention="jpg")
     {
-    	// recuperer les informations du media
-    	$em = $this->getDoctrine()->getManager();
-    	$media = $em->getRepository('AppBundle:Media')->find($id);
+    	
     	// construire le chemin vers le dossier de base des images
-    	$basePath = $this->container->getParameter('kernel.root_dir')."/../medias";
+    	$basePath = $this->get('kernel')->getRootDir()."/../medias";
     	// si une taille est demandée et si elle est suppérieur à 1 on affiche la miniature demandée
     	// sinon on affiche l'image originale.
     	if (!empty($size) && $size > 1) {
 
     		$mediaPath = $basePath;
-    		$mediaPath .= "/imagesdisplay/".sprintf("%08d",$media->getEvent()->getId())."/".sprintf("%08d",$media->getId())."_".$size;
-    		if ($squared > 0) {
-    			$mediaPath .= "_sq";
+    		$mediaPath .= "/imagesdisplay/".sprintf("%08d",$id)."_".$size;
+    		if ($ratio == "square") {
+    			$mediaPath .= "_square";
     			}
-    		$mediaPath .= ".jpg";
+    		$mediaPath .= ".".$extention;
     		if (!file_exists($mediaPath)) {
-    			$media->creatThumbnail($size, $basePath, $squared);
+                // recuperer les informations du media
+                $em = $this->getDoctrine()->getManager();
+                $media = $em->getRepository('AppBundle:Media')->find($id);
+    			$media->creatThumbnail($size, $basePath, $ratio);
     			}
     		}
     	else{
@@ -43,7 +44,7 @@ class MediaController extends Controller
     		}
 
 		$response = new BinaryFileResponse($mediaPath);
-		$response->setContentDisposition(ResponseHeaderBag::DISPOSITION_INLINE,$media->getFileOldName());
+		$response->setContentDisposition(ResponseHeaderBag::DISPOSITION_INLINE,sprintf("%08d",$id).".".$extention);
 
 		return $response;
     }

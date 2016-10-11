@@ -39,8 +39,8 @@
 			<ul class="row list-unstyled">
 				{% for media in event.getFirstsPhotos(6) %}
 					<li class="col-lg-1 col-md-2 col-sm-3 col-xs-4">
-						<a href="{{ path('photo', {'id':media.id, 'size':'900', 'squared':'0'}) }}" class="thumbnail">
-					      <img src="{{ path('photo', {'id':media.id, 'size':'150', 'squared':'1'}) }}" alt="{{ media.fileOldName }}">
+						<a href="{{ path('photo', {'id':media.id, 'size':'900', 'ratio':'original'}) }}" class="thumbnail">
+					      <img src="{{ path('photo', {'id':media.id, 'size':'150', 'ratio':'square'}) }}" alt="{{ media.fileOldName }}">
 					    </a>
 					</li>
 				{% endfor %}

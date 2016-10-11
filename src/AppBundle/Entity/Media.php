@@ -4,6 +4,8 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use \Imagick as Imagick;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 
 /**
  * Media
@@ -872,14 +874,26 @@ class Media
         return $this->comments;
     }
 
-    public function creatThumbnail($size, $basePath, $squared){
+    public function creatThumbnail($size, $basePath, $ratio){
+
+        $fs = new Filesystem();
 
         $originalMadia = $basePath."/".$this->getFolder()."/PHOTOS/".$this->getName();
 
-        $mediaPath = $basePath;
-        $mediaPath .= "/imagesdisplay/".sprintf("%08d",$this->getEvent()->getId())."/".sprintf("%08d",$this->getId())."_".$size;
-        if ($squared > 0) {
-            $mediaPath .= "_sq";
+        $displayfolder = $basePath."/imagesdisplay";
+
+        if (!$fs->exists($displayfolder)) {
+            try {
+                $fs->mkdir($displayfolder);
+            } catch (IOExceptionInterface $e) {
+                echo "An error occurred while creating your directory at ".$e->getPath();
+            }
+        }
+
+        $mediaPath = $displayfolder."/".sprintf("%08d",$this->getId())."_".$size;
+
+        if ($ratio == "square") {
+            $mediaPath .= "_square";
             }
         $mediaPath .= ".jpg";
 
@@ -897,7 +911,7 @@ class Media
 
         $redim = new Imagick($originalMadia);
 
-        if ($squared) {
+        if ($ratio == "square") {
             $redim->cropThumbnailImage( $size, $size );
             }
         else{
