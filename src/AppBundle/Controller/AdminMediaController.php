@@ -35,7 +35,7 @@ class AdminMediaController extends Controller
 
             );
         
-        $pagination->setUsedRoute('archive');
+        $pagination->setUsedRoute('admin_media_index');
 
         return $this->render('AppBundle:adminMedia:index.html.twig', array(
             'media' => $pagination,

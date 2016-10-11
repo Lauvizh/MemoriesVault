@@ -22,7 +22,6 @@
                         <th>Adddate</th>
                         <th>Pdvdate</th>
                         <th>Title</th>
-                        <th>Metadatas</th>
                         <th>Size</th>
                         <th>Duration</th>
                         <th>Startdate</th>
@@ -42,14 +41,6 @@
                         <td>{% if medium.addDate %}{{ medium.addDate|date('Y-m-d H:i:s') }}{% endif %}</td>
                         <td>{% if medium.pdvDate %}{{ medium.pdvDate|date('Y-m-d H:i:s') }}{% endif %}</td>
                         <td>{{ medium.title }}</td>
-                        <td>
-                            {% if medium.camera %} Caméra : {{ medium.camera }}<br/>{% endif %}
-                            {% if medium.focal %} Focal : {{ medium.focal }}<br/>{% endif %}
-                            {% if medium.focal35 %} Focal 35mm: {{ medium.focal35 }}<br/>{% endif %}
-                            {% if medium.iso %} Iso : {{ medium.iso }}<br/>{% endif %}
-                            {% if medium.speed %} Speed : {{ medium.speed }}<br/>{% endif %}
-                            {% if medium.aperture %} Aperture : {{ medium.aperture }}<br/>{% endif %}
-                        </td>
                         <td>{{ medium.height }}px x {{ medium.width }}px</td>
                         <td>{{ medium.duration }}</td>
                         <td>{% if medium.startDate %}{{ medium.startDate|date('Y-m-d H:i:s') }}{% endif %}</td>
