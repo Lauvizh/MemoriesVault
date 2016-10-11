@@ -11,6 +11,7 @@ var env = process.env.GULP_ENV;
 //JAVASCRIPT TASK: write one minified js file out of jquery.js, bootstrap.js and all of my custom js files
 gulp.task('js', function () {
     return gulp.src(['src/AppBundle/Resources/Public/jquery/dist/jquery.js',
+        'src/AppBundle/Resources/Public/jquery-ui/jquery-ui.js',
         'src/AppBundle/Resources/Public/bootstrap/dist/js/bootstrap.js',
         'src/AppBundle/Resources/Public/js/**/*.js'])
         .pipe(concat('memories_vault.js'))
