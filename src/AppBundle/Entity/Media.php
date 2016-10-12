@@ -198,7 +198,7 @@ class Media
     private $facePlaces;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\MediaComment", mappedBy="media", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Comment", mappedBy="media", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
     private $comments;
@@ -843,11 +843,11 @@ class Media
     /**
      * Add comment
      *
-     * @param \AppBundle\Entity\MediaComment $comment
+     * @param \AppBundle\Entity\Comment $comment
      *
      * @return Media
      */
-    public function addComment(\AppBundle\Entity\MediaComment $comment)
+    public function addComment(\AppBundle\Entity\Comment $comment)
     {
         $this->comments[] = $comment;
 
@@ -857,9 +857,9 @@ class Media
     /**
      * Remove comment
      *
-     * @param \AppBundle\Entity\MediaComment $comment
+     * @param \AppBundle\Entity\Comment $comment
      */
-    public function removeComment(\AppBundle\Entity\MediaComment $comment)
+    public function removeComment(\AppBundle\Entity\Comment $comment)
     {
         $this->comments->removeElement($comment);
     }

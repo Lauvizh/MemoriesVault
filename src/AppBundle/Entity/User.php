@@ -72,16 +72,10 @@ class User implements UserInterface, \Serializable
     private $seenEvents;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\EventComment", mappedBy="user", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Comment", mappedBy="user", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
-    private $eventComments;
-
-    /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\MediaComment", mappedBy="user", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $mediaComments;
+    private $Comments;
 
     /**
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\UserConnection", mappedBy="user", cascade={"persist"})
@@ -390,49 +384,15 @@ class User implements UserInterface, \Serializable
     }
 
     /**
-     * Add eventComment
-     *
-     * @param \AppBundle\Entity\EventComment $eventComment
-     *
-     * @return User
-     */
-    public function addEventComment(\AppBundle\Entity\EventComment $eventComment)
-    {
-        $this->eventComments[] = $eventComment;
-
-        return $this;
-    }
-
-    /**
-     * Remove eventComment
-     *
-     * @param \AppBundle\Entity\EventComment $eventComment
-     */
-    public function removeEventComment(\AppBundle\Entity\EventComment $eventComment)
-    {
-        $this->eventComments->removeElement($eventComment);
-    }
-
-    /**
-     * Get eventComments
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getEventComments()
-    {
-        return $this->eventComments;
-    }
-
-    /**
      * Add mediaComment
      *
-     * @param \AppBundle\Entity\MediaComment $mediaComment
+     * @param \AppBundle\Entity\Comment $Comment
      *
      * @return User
      */
-    public function addMediaComment(\AppBundle\Entity\MediaComment $mediaComment)
+    public function addMediaComment(\AppBundle\Entity\Comment $Comment)
     {
-        $this->mediaComments[] = $mediaComment;
+        $this->mediaComments[] = $Comment;
 
         return $this;
     }
@@ -440,11 +400,11 @@ class User implements UserInterface, \Serializable
     /**
      * Remove mediaComment
      *
-     * @param \AppBundle\Entity\MediaComment $mediaComment
+     * @param \AppBundle\Entity\Comment $Comment
      */
-    public function removeMediaComment(\AppBundle\Entity\MediaComment $mediaComment)
+    public function removeComment(\AppBundle\Entity\Comment $Comment)
     {
-        $this->mediaComments->removeElement($mediaComment);
+        $this->mediaComments->removeElement($Comment);
     }
 
     /**
@@ -452,7 +412,7 @@ class User implements UserInterface, \Serializable
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getMediaComments()
+    public function getComments()
     {
         return $this->mediaComments;
     }
@@ -495,4 +455,18 @@ class User implements UserInterface, \Serializable
         return $this->getFace()->getFullname();
     }
 
+
+    /**
+     * Add comment
+     *
+     * @param \AppBundle\Entity\Comment $comment
+     *
+     * @return User
+     */
+    public function addComment(\AppBundle\Entity\Comment $comment)
+    {
+        $this->Comments[] = $comment;
+
+        return $this;
+    }
 }

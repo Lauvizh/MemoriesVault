@@ -76,7 +76,7 @@ class Event
     private $themes;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\EventComment", mappedBy="event", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Comment", mappedBy="event", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
     private $comments;
@@ -371,11 +371,11 @@ class Event
     /**
      * Add comment
      *
-     * @param \AppBundle\Entity\EventComment $comment
+     * @param \AppBundle\Entity\Comment $comment
      *
      * @return Event
      */
-    public function addComment(\AppBundle\Entity\EventComment $comment)
+    public function addComment(\AppBundle\Entity\Comment $comment)
     {
         $this->comments[] = $comment;
 
@@ -385,9 +385,9 @@ class Event
     /**
      * Remove comment
      *
-     * @param \AppBundle\Entity\EventComment $comment
+     * @param \AppBundle\Entity\Comment $comment
      */
-    public function removeComment(\AppBundle\Entity\EventComment $comment)
+    public function removeComment(\AppBundle\Entity\Comment $comment)
     {
         $this->comments->removeElement($comment);
     }

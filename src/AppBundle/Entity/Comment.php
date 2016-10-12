@@ -5,12 +5,12 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * EventComment
+ * MediaComment
  *
- * @ORM\Table(name="event_comment")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\EventCommentRepository")
+ * @ORM\Table(name="comment")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\CommentRepository")
  */
-class EventComment
+class Comment
 {
     /**
      * @var int
@@ -42,11 +42,17 @@ class EventComment
     private $event;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="eventComments")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Media", inversedBy="comments")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $media;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="Comments")
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
-
+    
     /**
      * Constructor
      */
@@ -61,6 +67,7 @@ class EventComment
     public function __toString() {
         return $this->getContent();
     }
+
     /**
      * Get id
      *
@@ -76,7 +83,7 @@ class EventComment
      *
      * @param string $content
      *
-     * @return EventComment
+     * @return MediaComment
      */
     public function setContent($content)
     {
@@ -100,7 +107,7 @@ class EventComment
      *
      * @param \DateTime $date
      *
-     * @return EventComment
+     * @return MediaComment
      */
     public function setDate($date)
     {
@@ -124,9 +131,9 @@ class EventComment
      *
      * @param \AppBundle\Entity\Event $event
      *
-     * @return EventComment
+     * @return Comment
      */
-    public function setEvent(\AppBundle\Entity\Event $event = null)
+    public function setEvent(\AppBundle\Entity\Event $event)
     {
         $this->event = $event;
 
@@ -142,13 +149,37 @@ class EventComment
     {
         return $this->event;
     }
+    
+    /**
+     * Set media
+     *
+     * @param \LF\MediasBundle\Entity\Media $media
+     *
+     * @return MediaComment
+     */
+    public function setMedia(\AppBundle\Entity\Media $media)
+    {
+        $this->media = $media;
+
+        return $this;
+    }
+
+    /**
+     * Get media
+     *
+     * @return \LF\MediasBundle\Entity\Media
+     */
+    public function getMedia()
+    {
+        return $this->media;
+    }
 
     /**
      * Set user
      *
      * @param \AppBundle\Entity\User $user
      *
-     * @return EventComment
+     * @return MediaComment
      */
     public function setUser(\AppBundle\Entity\User $user)
     {
@@ -166,4 +197,6 @@ class EventComment
     {
         return $this->user;
     }
+
+
 }

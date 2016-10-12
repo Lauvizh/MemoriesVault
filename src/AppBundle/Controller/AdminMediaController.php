@@ -31,7 +31,7 @@ class AdminMediaController extends Controller
         $pagination = $paginator->paginate(
             $query, /* query NOT result */
             $request->query->getInt('page', $page)/*page number*/,
-            50/*limit per page*/
+            25/*limit per page*/
 
             );
         
