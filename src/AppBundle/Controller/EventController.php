@@ -23,15 +23,28 @@ class EventController extends Controller
     }
 
     /**
-     * @Route("/event/{id}", name="event", requirements={"id": "\d+"})
+     * @Route("/event/{id}/{page}", name="event", requirements={"id": "\d+", "page":"\d+"})
      */
-    public function eventAction($id)
+    public function eventAction($id, $page=1, Request $request)
     {
+
         $em = $this->getDoctrine()->getManager();
 
         $event = $em->getRepository('AppBundle:Event')->find($id);
 
-        return $this->render('AppBundle:event:event.html.twig' , array('event'=>$event));
+        $query_photos = $em->getRepository('AppBundle:Media')->findPhotosByEvent($event);
+
+        $paginator  = $this->get('knp_paginator');
+        $paginated_medias = $paginator->paginate(
+            $query_photos, /* query NOT result */
+            $request->query->getInt('page', $page)/*page number*/,
+            50/*limit per page*/
+
+        );
+        
+        $paginated_medias->setUsedRoute('event');
+
+        return $this->render('AppBundle:event:event.html.twig' , array('event'=>$event, 'medias'=>$paginated_medias));
     }
 
     /**

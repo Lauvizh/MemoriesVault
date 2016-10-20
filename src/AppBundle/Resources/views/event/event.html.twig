@@ -35,9 +35,9 @@
 {% endif %}
 <div class="row">
 	<div class="col-xs-12">
-		{% if event.getFirstsPhotos(6) %}
+		{% if medias %}
 			<ul class="row list-unstyled">
-				{% for media in event.getFirstsPhotos(6) %}
+				{% for media in medias %}
 					<li class="col-lg-1 col-md-2 col-sm-3 col-xs-4">
 						<a href="{{ path('photo', {'id':media.id, 'size':'900', 'ratio':'original'}) }}" class="thumbnail">
 					      <img src="{{ path('photo', {'id':media.id, 'size':'150', 'ratio':'square'}) }}" alt="{{ media.fileOldName }}">
@@ -47,5 +47,12 @@
 			</ul>
 		{% endif %}
 	</div>
+	<div class="row">
+	<div class="col-xs-12">
+		<div class="navigation">
+		    {{ knp_pagination_render(medias) }}
+		</div>
+	</div>
+</div>
 </div>
 {% endblock %}

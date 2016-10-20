@@ -31,6 +31,13 @@ class Event
     private $title;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="folder", type="string", length=255, nullable=false)
+     */
+    private $folder;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="start_date", type="datetime")
@@ -166,6 +173,30 @@ class Event
         return $this->title;
     }
 
+    /**
+     * Set folder
+     *
+     * @param string $folder
+     *
+     * @return Event
+     */
+    public function setFolder($folder)
+    {
+        $this->folder = $folder;
+
+        return $this;
+    }
+
+    /**
+     * Get folder
+     *
+     * @return string
+     */
+    public function getFolder()
+    {
+        return $this->folder;
+    }
+    
     /**
      * Set startDate
      *
@@ -534,4 +565,5 @@ class Event
     {
         return $this->viewedByUsers;
     }
+
 }

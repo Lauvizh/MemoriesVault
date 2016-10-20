@@ -10,4 +10,14 @@ namespace AppBundle\Repository;
  */
 class MediaRepository extends \Doctrine\ORM\EntityRepository
 {
+
+	public function findPhotosByEvent(\AppBundle\Entity\Event $event)
+    {
+        return $this->createQueryBuilder('m')
+        	->where('m.type = :type')
+            ->andWhere('m.event = :eventid')
+            ->setParameter('eventid', $event->getId())
+            ->setParameter('type', "pho")
+            ->getQuery();
+    }
 }
