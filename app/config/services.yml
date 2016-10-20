@@ -20,3 +20,7 @@ services:
       - "@translator.default" 
     tags:
       - { name: twig.extension}
+
+# AppBundle Services
+  app.slugger:
+        class: AppBundle\Utils\Slugger

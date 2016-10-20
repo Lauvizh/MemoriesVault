@@ -53,13 +53,6 @@ class Media
     private $name;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="folder", type="string", length=255, nullable=true)
-     */
-    private $folder;
-
-    /**
      * @var \DateTime
      *
      * @ORM\Column(name="add_date", type="datetime")
@@ -327,27 +320,13 @@ class Media
     }
 
     /**
-     * Set folder
-     *
-     * @param string $folder
-     *
-     * @return Media
-     */
-    public function setFolder($folder)
-    {
-        $this->folder = $folder;
-
-        return $this;
-    }
-
-    /**
      * Get folder
      *
      * @return string
      */
     public function getFolder()
     {
-        return $this->folder;
+        return $this->getEvent()->getFolder();
     }
     
     /**
@@ -878,7 +857,7 @@ class Media
 
         $fs = new Filesystem();
 
-        $originalMadia = $basePath."/".$this->getFolder()."/PHOTOS/".$this->getName();
+        $originalMadia = $basePath."/".$this->getevent()->getFolder()."/PHOTOS/".$this->getName();
 
         $displayfolder = $basePath."/imagesdisplay";
 
@@ -899,6 +878,12 @@ class Media
 
         $h = $this->getHeight();
         $w = $this->getWidth();
+
+        if (!$h || !$w) {
+            list($w, $h, $itype, $iattr) = getimagesize($originalMadia);
+            $this->setWidth($w);
+            $this->setHeight($h);
+            }
 
         // then calculate the resize perc based upon that dimension
         $p = ( $w < $h ) ? (100 / $w) * $size : (100 / $h) * $size;

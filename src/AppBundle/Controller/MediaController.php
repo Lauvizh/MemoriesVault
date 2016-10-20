@@ -37,10 +37,11 @@ class MediaController extends Controller
                 $em = $this->getDoctrine()->getManager();
                 $media = $em->getRepository('AppBundle:Media')->find($id);
     			$media->creatThumbnail($size, $basePath, $ratio);
+                $em->flush();
     			}
     		}
     	else{
-    		$mediaPath = $basePath."/".$media->getFolder()."/PHOTOS/".$media->getName();
+    		$mediaPath = $basePath."/".$media->getEvent()->getFolder()."/PHOTOS/".$media->getName();
     		}
 
 		$response = new BinaryFileResponse($mediaPath);
