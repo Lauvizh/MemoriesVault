@@ -24,6 +24,8 @@ gulp.task('js', function () {
 gulp.task('css', function () {
     return gulp.src([
         'src/AppBundle/Resources/Public/bootstrap/dist/css/bootstrap.css',
+        'src/AppBundle/Resources/Public/jquery-ui/themes/base/jquery-ui.css',
+        'src/AppBundle/Resources/Public/jquery-ui/themes/base/theme.css',
         'app/Resources/public/css/**/*.css',
         'app/Resources/public/less/**/*.less'
         ])
@@ -36,15 +38,21 @@ gulp.task('css', function () {
 
 //IMAGE TASK: Just pipe images from project folder to public web folder
 gulp.task('img', function() {
-    return gulp.src('app/Resources/public/img/**/*.*')
+    return gulp.src('app/Resources/Public/img/**/*.*')
         .pipe(gulp.dest('web/img'));
+});
+
+//IMAGE TASK: Just pipe images from project folder to public web folder
+gulp.task('images', function() {
+    return gulp.src('src/AppBundle/Resources/Public/jquery-ui/themes/base/images/*')
+        .pipe(gulp.dest('web/css/images'));
 });
 
 //FONT TASK: convert and copy fonts
 gulp.task('fontgen', function() {
   return gulp.src("src/AppBundle/Resources/Public/bootstrap/fonts/*.{ttf,otf}")
     .pipe(fontgen({
-      dest: "web/fonts/"
+      dest: "web/fonts"
     }));
 });
 
@@ -54,8 +62,8 @@ gulp.task('videojs', function() {
     return gulp.src([
         'src/AppBundle/Resources/Public/video.js/dist/*'
         ])
-        .pipe(gulp.dest('web/videojs'));
+        .pipe(gulp.dest('web/videojs/'));
 });
 
 //define executable tasks when running "gulp" command
-gulp.task('default', ['js', 'css', 'img', 'videojs', 'fontgen']);
+gulp.task('default', ['js', 'css', 'img', 'images', 'videojs', 'fontgen']);
