@@ -21,6 +21,7 @@
 /web/fonts/
 /web/images/
 /web/img/
+/web/videojs/
 /*.sql
 /*.sql*
 *.sql.zip

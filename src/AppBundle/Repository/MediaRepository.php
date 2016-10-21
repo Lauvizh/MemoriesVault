@@ -20,4 +20,14 @@ class MediaRepository extends \Doctrine\ORM\EntityRepository
             ->setParameter('type', "pho")
             ->getQuery();
     }
+
+    public function findVideosByEvent(\AppBundle\Entity\Event $event)
+    {
+        return $this->createQueryBuilder('m')
+        	->where('m.type = :type')
+            ->andWhere('m.event = :eventid')
+            ->setParameter('eventid', $event->getId())
+            ->setParameter('type', "vid")
+            ->getQuery();
+    }
 }

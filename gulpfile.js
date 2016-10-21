@@ -24,7 +24,9 @@ gulp.task('js', function () {
 gulp.task('css', function () {
     return gulp.src([
         'src/AppBundle/Resources/Public/bootstrap/dist/css/bootstrap.css',
-        'app/Resources/public/less/**/*.less'])
+        'app/Resources/public/css/**/*.css',
+        'app/Resources/public/less/**/*.less'
+        ])
         .pipe(gulpif(/[.]less/, less()))
         .pipe(concat('memories_vault.css'))
         .pipe(gulpif(env === 'prod', uglifycss()))
@@ -46,5 +48,14 @@ gulp.task('fontgen', function() {
     }));
 });
 
+
+//IMAGE TASK: Just pipe images from project folder to public web folder
+gulp.task('videojs', function() {
+    return gulp.src([
+        'src/AppBundle/Resources/Public/video.js/dist/*'
+        ])
+        .pipe(gulp.dest('web/videojs'));
+});
+
 //define executable tasks when running "gulp" command
-gulp.task('default', ['js', 'css', 'img','fontgen']);
+gulp.task('default', ['js', 'css', 'img', 'videojs', 'fontgen']);

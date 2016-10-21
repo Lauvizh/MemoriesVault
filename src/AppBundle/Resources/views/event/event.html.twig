@@ -1,58 +1,87 @@
 {% extends "AppBundle::layout.html.twig" %}
-
+{% block stylesheets %}
+	{{ parent() }}
+	<link href="/videojs/video-js.min.css" rel="stylesheet">
+{% endblock %}
 {% block content%}
 {% if event.title %}
-	<div class="row">
-		<div class="col-xs-12">
-			<h1>{{ event.title }}</h1>
-		</div>
+<div class="row">
+	<div class="col-xs-12">
+		<h1>{{ event.title }}</h1>
 	</div>
+</div>
 {% endif %}
 {% if event.startDate and event.endDate %}
-	<div class="row">
-		<div class="col-xs-12">
-			<p class="strong"><span class="label label-default">{{ event.getStartDate()|time_diff }}</span> {{ 'app.word.from'|trans }} : {{ event.getStartDate()|localizeddate('short','none') }} {{ 'app.word.to'|trans }} : {{ event.getEndDate()|localizeddate('short','none') }}</p>
-		</div>
+<div class="row">
+	<div class="col-xs-12">
+		<p class="strong"><span class="label label-default">{{ event.getStartDate()|time_diff }}</span> {{ 'app.word.from'|trans }} : {{ event.getStartDate()|localizeddate('short','none') }} {{ 'app.word.to'|trans }} : {{ event.getEndDate()|localizeddate('short','none') }}</p>
 	</div>
+</div>
 {% endif %}
 {% if event.summary %}
-	<div class="row">
-		<div class="col-xs-12">
-			<p>{{ event.summary }}</p>
-		</div>
+<div class="row">
+	<div class="col-xs-12">
+		<p>{{ event.summary }}</p>
 	</div>
+</div>
 {% endif %}
 {% if event.getThemes() %}
-	<div class="row">
-		<div class="col-xs-12">
-			<ul class="list-unstyled">
-				{% for theme in event.getThemes() %}
-					<li>{{ theme.name }}</li>
-				{% endfor %}
-			</ul>
-		</div>
+<div class="row">
+	<div class="col-xs-12">
+		<ul class="list-unstyled">
+			{% for theme in event.getThemes() %}
+				<li>{{ theme.name }}</li>
+			{% endfor %}
+		</ul>
 	</div>
+</div>
 {% endif %}
 <div class="row">
 	<div class="col-xs-12">
-		{% if medias %}
-			<ul class="row list-unstyled">
-				{% for media in medias %}
-					<li class="col-lg-1 col-md-2 col-sm-3 col-xs-4">
-						<a href="{{ path('photo', {'id':media.id, 'size':'900', 'ratio':'original'}) }}" class="thumbnail">
-					      <img src="{{ path('photo', {'id':media.id, 'size':'150', 'ratio':'square'}) }}" alt="{{ media.fileOldName }}">
-					    </a>
-					</li>
-				{% endfor %}
-			</ul>
-		{% endif %}
+	{% if videos %}
+		<ul class="row list-unstyled">
+		{% for media in videos %}
+			<li class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+				<p class="text-center">{{ media.title }}</p>
+				<div class="embed-responsive embed-responsive-16by9">
+					<video id="video_{{ media.id }}" class="video-js vjs-default-skin vjs-big-play-centered" preload="none" width="auto" height="auto" controls poster="http://video-js.zencoder.com/oceans-clip.png">
+						<source src="{{ path('video', {'id':media.id, 'extention':'mp4'}) }}" type="video/mp4">
+						<source src="{{ path('video', {'id':media.id, 'extention':'webm'}) }}" type="video/webm">
+						<source src="{{ path('video', {'id':media.id, 'extention':'ogg'}) }}" type="video/ogg">
+						<p class="vjs-no-js"> Pour pouvoir voir la vidéo veuillez activé le JavaScript, et pensez à mettre à jour votre navigateur pour qu'il <a href="http://videojs.com/html5-video-support/" target="_blank">supporte les vidéos HTML5</a></p>
+					</video>
+				</div>
+			</li>
+		{% endfor %}
+		</ul>
+	{% endif %}
 	</div>
-	<div class="row">
+</div>
+{% if photos %}
+<div class="row">
+	<div class="col-xs-12">
+		<ul class="row list-unstyled">
+			{% for media in photos %}
+				<li class="col-lg-1 col-md-2 col-sm-3 col-xs-4">
+					<a href="{{ path('photo', {'id':media.id, 'size':'900', 'ratio':'original'}) }}" class="thumbnail">
+				      <img src="{{ path('photo', {'id':media.id, 'size':'150', 'ratio':'square'}) }}" alt="{{ media.fileOldName }}">
+				    </a>
+				</li>
+			{% endfor %}
+		</ul>
+	</div>
 	<div class="col-xs-12">
 		<div class="navigation">
-		    {{ knp_pagination_render(medias) }}
+		    {{ knp_pagination_render(photos) }}
 		</div>
 	</div>
 </div>
-</div>
+{% endif %}
+{% block javascripts%}
+	{{ parent() }}
+	<script src="/videojs/video.min.js"></script>
+	<script>
+	  videojs.options.flash.swf = "/videojs/video-js.swf";
+	</script>
+{% endblock %}
 {% endblock %}

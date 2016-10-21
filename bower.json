@@ -16,6 +16,7 @@
   ],
   "dependencies": {
     "bootstrap": "~3",
-    "jquery-ui": "^1.12"
+    "jquery-ui": "^1.12",
+    "video.js" : "~5"
   }
 }

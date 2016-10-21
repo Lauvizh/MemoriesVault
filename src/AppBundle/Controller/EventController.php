@@ -35,16 +35,19 @@ class EventController extends Controller
         $query_photos = $em->getRepository('AppBundle:Media')->findPhotosByEvent($event);
 
         $paginator  = $this->get('knp_paginator');
-        $paginated_medias = $paginator->paginate(
+        $paginated_photos = $paginator->paginate(
             $query_photos, /* query NOT result */
             $request->query->getInt('page', $page)/*page number*/,
             50/*limit per page*/
 
         );
-        
-        $paginated_medias->setUsedRoute('event');
 
-        return $this->render('AppBundle:event:event.html.twig' , array('event'=>$event, 'medias'=>$paginated_medias));
+        $paginated_photos->setUsedRoute('event');
+
+        $query_photos = $em->getRepository('AppBundle:Media')->findVideosByEvent($event);
+        $videos = $query_photos->getResult();
+
+        return $this->render('AppBundle:event:event.html.twig' , array('event'=>$event, 'photos'=>$paginated_photos, 'videos' => $videos));
     }
 
     /**
