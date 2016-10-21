@@ -159,9 +159,9 @@ class Media
     /**
      * @var string
      *
-     * @ORM\Column(name="video_set", type="string", length=255, nullable=true)
+     * @ORM\Column(name="video_poster", type="string", length=255, nullable=true)
      */
-    private $videoSet;
+    private $videoPoster;
 
     /**
      * @var string
@@ -666,27 +666,27 @@ class Media
     }
 
     /**
-     * Set videoSet
+     * Set videoPoster
      *
-     * @param string $videoSet
+     * @param string $videoPoster
      *
      * @return Media
      */
-    public function setVideoSet($videoSet)
+    public function setvideoPoster($videoPoster)
     {
-        $this->videoSet = $videoSet;
+        $this->videoPoster = $videoPoster;
 
         return $this;
     }
 
     /**
-     * Get videoSet
+     * Get videoPoster
      *
      * @return string
      */
-    public function getVideoSet()
+    public function getvideoPoster()
     {
-        return $this->videoSet;
+        return $this->videoPoster;
     }
 
     /**

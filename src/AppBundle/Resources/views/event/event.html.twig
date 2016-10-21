@@ -42,13 +42,12 @@
 		<ul class="row list-unstyled">
 		{% for media in videos %}
 			<li class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
-				<p class="text-center">{{ media.title }}</p>
 				<div class="embed-responsive embed-responsive-16by9">
-					<video id="video_{{ media.id }}" class="video-js vjs-default-skin vjs-big-play-centered" preload="none" width="auto" height="auto" controls poster="http://video-js.zencoder.com/oceans-clip.png">
+					<video id="video_{{ media.id }}" class="video-js vjs-default-skin vjs-big-play-centered vjs-16-9"  width="640" height="264" poster="{{ path('videoposter', {'id': media.id} ) }}" data-setup='{"fluid": true, "controls": true, "nativeControlsForTouch": true, "autoplay": false, "preload": "none", "techOrder": ["html5","flash"]}'>
 						<source src="{{ path('video', {'id':media.id, 'extention':'mp4'}) }}" type="video/mp4">
 						<source src="{{ path('video', {'id':media.id, 'extention':'webm'}) }}" type="video/webm">
 						<source src="{{ path('video', {'id':media.id, 'extention':'ogg'}) }}" type="video/ogg">
-						<p class="vjs-no-js"> Pour pouvoir voir la vidéo veuillez activé le JavaScript, et pensez à mettre à jour votre navigateur pour qu'il <a href="http://videojs.com/html5-video-support/" target="_blank">supporte les vidéos HTML5</a></p>
+						<p class="vjs-no-js">Pour pouvoir voir la vidéo veuillez activé le JavaScript, et pensez à mettre à jour votre navigateur pour qu'il<a href="http://videojs.com/html5-video-support/" target="_blank">supporte les vidéos HTML5</a></p>
 					</video>
 				</div>
 			</li>

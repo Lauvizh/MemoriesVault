@@ -80,4 +80,26 @@ class MediaController extends Controller
 
         return $response;
     }
+
+    /**
+     * @Route("/videoposter/{id}", name="videoposter", requirements={"id": "\d+"})
+     */
+    public function videoposterAction($id)
+    {
+        
+        // construire le chemin vers le dossier de base des images
+        $basePath = $this->get('kernel')->getRootDir()."/../medias";
+        
+        $em = $this->getDoctrine()->getManager();
+        $media = $em->getRepository('AppBundle:Media')->find($id);
+        $mediaPath = $basePath."/".$media->getEvent()->getFolder()."/VIDEOS/".$media->getvideoPoster();
+        if (!file_exists($mediaPath)) {
+            throw new NotFoundHttpException('Sorry, video poster does not exist!');
+            }
+
+        $response = new BinaryFileResponse($mediaPath);
+        $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_INLINE,$media->getvideoPoster());
+
+        return $response;
+    }
 }
