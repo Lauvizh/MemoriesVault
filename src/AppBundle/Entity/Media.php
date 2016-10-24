@@ -48,9 +48,16 @@ class Media
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255, nullable=true)
+     * @ORM\Column(name="extention", type="string", length=16, nullable=true)
      */
-    private $name;
+    private $extention;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="mime_type", type="string", length=64, nullable=true)
+     */
+    private $mimeType;
 
     /**
      * @var \DateTime
@@ -295,18 +302,52 @@ class Media
         return $this->fileOldName;
     }
 
-    /**
-     * Set name
+        /**
+     * Set extention
      *
-     * @param string $name
+     * @param string $extention
      *
      * @return Media
      */
-    public function setName($name)
+    public function setExtention($extention)
     {
-        $this->name = $name;
+        $this->extention = $extention;
 
         return $this;
+    }
+
+    /**
+     * Get extention
+     *
+     * @return string
+     */
+    public function getExtention()
+    {
+        return $this->extention;
+    }
+
+    /**
+     * Set mimeType
+     *
+     * @param string $mimeType
+     *
+     * @return Media
+     */
+    public function setMimeType($mimeType)
+    {
+        $this->mimeType = $mimeType;
+
+        return $this;
+    }
+
+    /**
+     * Get mimeType
+     *
+     * @return string
+     */
+    public function getMimeType()
+    {
+        return $this->mimeType;
     }
 
     /**
@@ -316,7 +357,10 @@ class Media
      */
     public function getName()
     {
-        return $this->name;
+        $name = str_pad($this->getId(), 10, 0, STR_PAD_LEFT);
+        $name .= ".";
+        $name .= $this->getExtention();
+        return $name;
     }
 
     /**
@@ -857,9 +901,9 @@ class Media
 
         $fs = new Filesystem();
 
-        $originalMadia = $basePath."/".$this->getevent()->getFolder()."/PHOTOS/".$this->getName();
+        $originalMadia = $basePath."/".$this->getEvent()->getFolder()."/PHOTOS/".$this->getName();
 
-        $displayfolder = $basePath."/imagesdisplay";
+        $displayfolder = $basePath."/imagesdisplay/".$size;
 
         if (!$fs->exists($displayfolder)) {
             try {
@@ -869,7 +913,7 @@ class Media
             }
         }
 
-        $mediaPath = $displayfolder."/".sprintf("%08d",$this->getId())."_".$size;
+        $mediaPath = $displayfolder."/".str_pad($this->getId(), 10, 0, STR_PAD_LEFT);
 
         if ($ratio == "square") {
             $mediaPath .= "_square";
@@ -925,6 +969,4 @@ class Media
         return $this;
 
         }
-
-
 }

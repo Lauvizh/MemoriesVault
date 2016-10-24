@@ -31,13 +31,6 @@ class Event
     private $title;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="folder", type="string", length=255, nullable=false)
-     */
-    private $folder;
-
-    /**
      * @var \DateTime
      *
      * @ORM\Column(name="start_date", type="datetime")
@@ -121,6 +114,11 @@ class Event
     private $viewedByUsers;
 
     /**
+     * @ORM\Column(name="is_active", type="boolean", options={"default" : false})
+     */
+    private $isActive;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -130,6 +128,7 @@ class Event
         $this->medias = new \Doctrine\Common\Collections\ArrayCollection();
         $this->createdDate = $this->modifiedDate = new \DateTime();
         $this->countPhotos = $this->countVideos = 0;
+        $this->isActive = false;
     }
 
     /**
@@ -173,19 +172,6 @@ class Event
         return $this->title;
     }
 
-    /**
-     * Set folder
-     *
-     * @param string $folder
-     *
-     * @return Event
-     */
-    public function setFolder($folder)
-    {
-        $this->folder = $folder;
-
-        return $this;
-    }
 
     /**
      * Get folder
@@ -194,7 +180,7 @@ class Event
      */
     public function getFolder()
     {
-        return $this->folder;
+        return str_pad($this->getId(), 6, 0, STR_PAD_LEFT);
     }
     
     /**
@@ -566,4 +552,27 @@ class Event
         return $this->viewedByUsers;
     }
 
+    /**
+     * Set isActive
+     *
+     * @param boolean $isActive
+     *
+     * @return Event
+     */
+    public function setIsActive($isActive)
+    {
+        $this->isActive = $isActive;
+
+        return $this;
+    }
+
+    /**
+     * Get isActive
+     *
+     * @return boolean
+     */
+    public function getIsActive()
+    {
+        return $this->isActive;
+    }
 }

@@ -28,7 +28,7 @@ class MediaController extends Controller
     	if (!empty($size) && $size > 1) {
 
     		$mediaPath = $basePath;
-    		$mediaPath .= "/imagesdisplay/".sprintf("%08d",$id)."_".$size;
+    		$mediaPath .= "/imagesdisplay/".$size."/".str_pad($id, 10, 0, STR_PAD_LEFT);
     		if ($ratio == "square") {
     			$mediaPath .= "_square";
     			}
@@ -51,7 +51,7 @@ class MediaController extends Controller
     		}
 
 		$response = new BinaryFileResponse($mediaPath);
-		$response->setContentDisposition(ResponseHeaderBag::DISPOSITION_INLINE,sprintf("%08d",$id).".".$extention);
+		$response->setContentDisposition(ResponseHeaderBag::DISPOSITION_INLINE,str_pad($id, 10, 0, STR_PAD_LEFT).".".$extention);
 
 		return $response;
     }

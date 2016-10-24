@@ -8,6 +8,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Entity\Media;
 use AppBundle\Form\MediaType;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 
 /**
  * Media controller.
@@ -42,30 +44,104 @@ class AdminMediaController extends Controller
         ));
     }
 
+    // *
+    //  * Creates a new Media entity.
+    //  *
+    //  * @Route("/new", name="admin_media_new")
+    //  * @Method({"GET", "POST"})
+     
+    // public function newAction(Request $request)
+        // {
+        //     $medium = new Media();
+        //     $form = $this->createForm('AppBundle\Form\MediaType', $medium);
+        //     $form->handleRequest($request);
+
+        //     if ($form->isSubmitted() && $form->isValid()) {
+        //         $em = $this->getDoctrine()->getManager();
+        //         $em->persist($medium);
+        //         $em->flush();
+
+        //         return $this->redirectToRoute('admin_media_show', array('id' => $medium->getId()));
+        //     }
+
+        //     return $this->render('AppBundle:adminMedia:new.html.twig', array(
+        //         'medium' => $medium,
+        //         'form' => $form->createView(),
+        //     ));
+    // }
+
     /**
-     * Creates a new Media entity.
+     * Upload Multiple media entities.
      *
-     * @Route("/new", name="admin_media_new")
+     * @Route("/upload", name="admin_media_upload")
      * @Method({"GET", "POST"})
      */
-    public function newAction(Request $request)
+    public function uploadAction(Request $request)
     {
-        $medium = new Media();
-        $form = $this->createForm('AppBundle\Form\MediaType', $medium);
+        $form = $this->createForm('AppBundle\Form\MediaUploadType');
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        
+
+        if ($form->isSubmitted()) {
+
+            $fs = new Filesystem();
+            $newMadias = array();
+            $tmpNameSalt = md5(rand().time());
             $em = $this->getDoctrine()->getManager();
-            $em->persist($medium);
-            $em->flush();
+            $basePath = $this->get('kernel')->getRootDir()."/../medias";
+            $tmpFolder = $basePath."/tmp";
 
-            return $this->redirectToRoute('admin_media_show', array('id' => $medium->getId()));
-        }
 
-        return $this->render('AppBundle:adminMedia:new.html.twig', array(
-            'medium' => $medium,
-            'form' => $form->createView(),
-        ));
+            $files = $form->get('files')->getData();
+            if ($files) {
+                foreach ($files as $file) {
+                    $m = new Media();
+                    $m->setFileOldName($file->getClientOriginalName());
+                    $m->setExtention($file->getClientOriginalExtension());
+                    $m->setEvent($form->get('event')->getData());
+
+                    $mime = $file->getClientMimeType();
+
+                    switch ($mime) {
+                        case (preg_match('#image\/*#', $mime) ? true : false) :
+                            $m->setType('pho');
+                            break;
+                        case (preg_match('#video\/*#', $mime) ? true : false) :
+                            $m->setType('vid');
+                            break;
+                        }
+
+                    $m->setMimeType($mime);
+                    $m->setSizeKo(round($file->getClientSize()/1024,0));
+
+                    $file->move($tmpFolder, $tmpNameSalt."-".$file->getClientOriginalName());
+
+                    $em->persist($m);
+
+                    $newMadias[] = $m;
+
+                    }
+                }
+
+                $em->flush();
+
+                foreach ($newMadias as $newMadia) {
+                    $subFolder = "PHOTOS";
+                    if ($newMadia->getType() == "vid") {
+                        $subFolder = "VIDEOS";
+                        }
+
+
+                    $fs->rename($tmpFolder."/".$tmpNameSalt."-".$newMadia->getFileOldName(), $basePath."/".str_pad($newMadia->getEvent()->getId(), 6, 0, STR_PAD_LEFT)."/".$subFolder."/".str_pad($newMadia->getId(), 10, 0, STR_PAD_LEFT).".".$newMadia->getExtention());
+                    }
+
+                \Doctrine\Common\Util\Debug::dump($newMadias,2);
+
+            }
+        return $this->render('AppBundle:adminMedia:upload.html.twig', array(
+            'upload_form' => $form->createView(),
+            ));
     }
 
     /**

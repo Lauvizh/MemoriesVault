@@ -8,7 +8,7 @@
     </div>
     <div class="row">
         <div class="col-xs-12">
-            <a class="btn btn-success" href="{{ path('admin_media_new') }}">Create a new media</a>
+            <a class="btn btn-success" href="{{ path('admin_media_upload') }}">Upload medias</a>
         </div>
     </div>
     <div class="row">
@@ -33,7 +33,7 @@
                         <th>Duration</th>
                         <th>Startdate</th>
                         <th>Enddate</th>
-                        <th>Videoset</th>
+                        <th>VideoPoster</th>
                         <th>Coord</th>
                         <th>Infos</th>
                         <th>Actions</th>
@@ -52,7 +52,7 @@
                         <td>{{ medium.duration }}</td>
                         <td>{% if medium.startDate %}{{ medium.startDate|date('Y-m-d H:i:s') }}{% endif %}</td>
                         <td>{% if medium.endDate %}{{ medium.endDate|date('Y-m-d H:i:s') }}{% endif %}</td>
-                        <td>{{ medium.videoSet }}</td>
+                        <td>{{ medium.videoPoster }}</td>
                         <td>Lat : {{ medium.gpsLat }}<br/> Lon : {{ medium.gpsLon }}</td>
                         <td>{{ medium.infos }}</td>
                         <td>
@@ -85,7 +85,7 @@
     </div>
     <div class="row">
         <div class="col-xs-12">
-            <a class="btn btn-success" href="{{ path('admin_media_new') }}">Create a new media</a>
+            <a class="btn btn-success" href="{{ path('admin_media_upload') }}">Upload medias</a>
         </div>
     </div>
 {% endblock %}
