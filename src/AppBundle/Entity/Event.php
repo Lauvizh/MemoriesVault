@@ -76,17 +76,17 @@ class Event
     private $themes;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Comment", mappedBy="event", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\CommentEvent", mappedBy="event", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
     private $comments;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Media", mappedBy="event")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Photo", mappedBy="event")
      * @ORM\JoinColumn(nullable=true)
-     * @ORM\OrderBy({"startDate" = "DESC"})
+     * @ORM\OrderBy({"pdvDate" = "DESC"})
      */
-    private $medias;
+    private $photos;
 
     /**
      * @var int
@@ -94,6 +94,13 @@ class Event
      * @ORM\Column(name="count_photos", type="integer", nullable=true)
      */
     private $countPhotos;
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Video", mappedBy="event")
+     * @ORM\JoinColumn(nullable=true)
+     * @ORM\OrderBy({"startDate" = "DESC"})
+     */
+    private $videos;
 
     /**
      * @var int
@@ -125,7 +132,8 @@ class Event
     {
         $this->themes = new \Doctrine\Common\Collections\ArrayCollection();
         $this->comments = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->medias = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->photos = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->videos = new \Doctrine\Common\Collections\ArrayCollection();
         $this->createdDate = $this->modifiedDate = new \DateTime();
         $this->countPhotos = $this->countVideos = 0;
         $this->isActive = false;
@@ -388,11 +396,11 @@ class Event
     /**
      * Add comment
      *
-     * @param \AppBundle\Entity\Comment $comment
+     * @param \AppBundle\Entity\CommentEvent $comment
      *
      * @return Event
      */
-    public function addComment(\AppBundle\Entity\Comment $comment)
+    public function addComment(\AppBundle\Entity\CommentEvent $comment)
     {
         $this->comments[] = $comment;
 
@@ -402,9 +410,9 @@ class Event
     /**
      * Remove comment
      *
-     * @param \AppBundle\Entity\Comment $comment
+     * @param \AppBundle\Entity\CommentEvent $comment
      */
-    public function removeComment(\AppBundle\Entity\Comment $comment)
+    public function removeComment(\AppBundle\Entity\CommentEvent $comment)
     {
         $this->comments->removeElement($comment);
     }
@@ -417,71 +425,6 @@ class Event
     public function getComments()
     {
         return $this->comments;
-    }
-
-    /**
-     * Add media
-     *
-     * @param \AppBundle\Entity\Media $media
-     *
-     * @return Event
-     */
-    public function addMedia(\AppBundle\Entity\Media $media)
-    {
-        $this->medias[] = $media;
-
-        return $this;
-    }
-
-    /**
-     * Remove media
-     *
-     * @param \AppBundle\Entity\Media $media
-     */
-    public function removeMedia(\AppBundle\Entity\Media $media)
-    {
-        $this->medias->removeElement($media);
-    }
-
-    /**
-     * Get medias
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getMedias()
-    {
-        return $this->medias;
-    }
-
-    public function getFirstsPhotos($nb = 4)
-    {
-
-        $criteria = Criteria::create()
-        ->where(Criteria::expr()->eq("type", "pho"))
-        ->orderBy(array('pdvDate'=> Criteria::ASC))
-        ->setMaxResults($nb);
-
-        return $this->medias->matching($criteria);
-    }
-
-    public function getPhotos()
-    {
-
-        $criteria = Criteria::create()
-        ->where(Criteria::expr()->eq("type", "pho"))
-        ->orderBy(array('pdvDate'=> Criteria::ASC));
-
-        return $this->medias->matching($criteria);
-    }
-
-    public function getVideos()
-    {
-
-        $criteria = Criteria::create()
-        ->where(Criteria::expr()->eq("type", "vid"))
-        ->orderBy(array('startDate'=> Criteria::ASC));
-
-        return $this->medias->matching($criteria);
     }
 
     /**
@@ -574,5 +517,88 @@ class Event
     public function getIsActive()
     {
         return $this->isActive;
+    }
+
+    /**
+     * Add photo
+     *
+     * @param \AppBundle\Entity\Photo $photo
+     *
+     * @return Event
+     */
+    public function addPhoto(\AppBundle\Entity\Photo $photo)
+    {
+        $this->photos[] = $photo;
+
+        return $this;
+    }
+
+    /**
+     * Remove photo
+     *
+     * @param \AppBundle\Entity\Photo $photo
+     */
+    public function removePhoto(\AppBundle\Entity\Photo $photo)
+    {
+        $this->photos->removeElement($photo);
+    }
+
+    /**
+     * Get First Photos
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getFirstsPhotos($nb = 4)
+    {
+
+        $criteria = Criteria::create()
+        ->orderBy(array('pdvDate'=> Criteria::ASC))
+        ->setMaxResults($nb);
+
+        return $this->photos->matching($criteria);
+    }
+
+    /**
+     * Get Photos
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPhotos()
+    {
+        return $this->photos;
+    }
+
+    /**
+     * Add video
+     *
+     * @param \AppBundle\Entity\Video $video
+     *
+     * @return Event
+     */
+    public function addVideo(\AppBundle\Entity\Video $video)
+    {
+        $this->videos[] = $video;
+
+        return $this;
+    }
+
+    /**
+     * Remove video
+     *
+     * @param \AppBundle\Entity\Video $video
+     */
+    public function removeVideo(\AppBundle\Entity\Video $video)
+    {
+        $this->videos->removeElement($video);
+    }
+
+    /**
+     * Get Videos
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getVideos()
+    {
+        return $this->videos;
     }
 }

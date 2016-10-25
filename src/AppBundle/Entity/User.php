@@ -72,10 +72,22 @@ class User implements UserInterface, \Serializable
     private $seenEvents;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Comment", mappedBy="user", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\CommentEvent", mappedBy="user", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
-    private $Comments;
+    private $CommentsEvent;
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\CommentPhoto", mappedBy="user", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $CommentsPhoto;
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\CommentVideo", mappedBy="user", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $CommentsVideo;
 
     /**
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\UserConnection", mappedBy="user", cascade={"persist"})
@@ -384,40 +396,6 @@ class User implements UserInterface, \Serializable
     }
 
     /**
-     * Add mediaComment
-     *
-     * @param \AppBundle\Entity\Comment $Comment
-     *
-     * @return User
-     */
-    public function addMediaComment(\AppBundle\Entity\Comment $Comment)
-    {
-        $this->mediaComments[] = $Comment;
-
-        return $this;
-    }
-
-    /**
-     * Remove mediaComment
-     *
-     * @param \AppBundle\Entity\Comment $Comment
-     */
-    public function removeComment(\AppBundle\Entity\Comment $Comment)
-    {
-        $this->mediaComments->removeElement($Comment);
-    }
-
-    /**
-     * Get mediaComments
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getComments()
-    {
-        return $this->mediaComments;
-    }
-
-    /**
      * Add connection
      *
      * @param \AppBundle\Entity\UserConnection $connection
@@ -457,16 +435,104 @@ class User implements UserInterface, \Serializable
 
 
     /**
-     * Add comment
+     * Add commentsEvent
      *
-     * @param \AppBundle\Entity\Comment $comment
+     * @param \AppBundle\Entity\CommentEvent $commentsEvent
      *
      * @return User
      */
-    public function addComment(\AppBundle\Entity\Comment $comment)
+    public function addCommentsEvent(\AppBundle\Entity\CommentEvent $commentsEvent)
     {
-        $this->Comments[] = $comment;
+        $this->CommentsEvent[] = $commentsEvent;
 
         return $this;
+    }
+
+    /**
+     * Remove commentsEvent
+     *
+     * @param \AppBundle\Entity\CommentEvent $commentsEvent
+     */
+    public function removeCommentsEvent(\AppBundle\Entity\CommentEvent $commentsEvent)
+    {
+        $this->CommentsEvent->removeElement($commentsEvent);
+    }
+
+    /**
+     * Get commentsEvent
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCommentsEvent()
+    {
+        return $this->CommentsEvent;
+    }
+
+    /**
+     * Add commentsPhoto
+     *
+     * @param \AppBundle\Entity\CommentPhoto $commentsPhoto
+     *
+     * @return User
+     */
+    public function addCommentsPhoto(\AppBundle\Entity\CommentPhoto $commentsPhoto)
+    {
+        $this->CommentsPhoto[] = $commentsPhoto;
+
+        return $this;
+    }
+
+    /**
+     * Remove commentsPhoto
+     *
+     * @param \AppBundle\Entity\CommentPhoto $commentsPhoto
+     */
+    public function removeCommentsPhoto(\AppBundle\Entity\CommentPhoto $commentsPhoto)
+    {
+        $this->CommentsPhoto->removeElement($commentsPhoto);
+    }
+
+    /**
+     * Get commentsPhoto
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCommentsPhoto()
+    {
+        return $this->CommentsPhoto;
+    }
+
+    /**
+     * Add commentsVideo
+     *
+     * @param \AppBundle\Entity\CommentVideo $commentsVideo
+     *
+     * @return User
+     */
+    public function addCommentsVideo(\AppBundle\Entity\CommentVideo $commentsVideo)
+    {
+        $this->CommentsVideo[] = $commentsVideo;
+
+        return $this;
+    }
+
+    /**
+     * Remove commentsVideo
+     *
+     * @param \AppBundle\Entity\CommentVideo $commentsVideo
+     */
+    public function removeCommentsVideo(\AppBundle\Entity\CommentVideo $commentsVideo)
+    {
+        $this->CommentsVideo->removeElement($commentsVideo);
+    }
+
+    /**
+     * Get commentsVideo
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCommentsVideo()
+    {
+        return $this->CommentsVideo;
     }
 }

@@ -5,12 +5,12 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * MediaComment
+ * CommentPhoto
  *
- * @ORM\Table(name="comment")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\CommentRepository")
+ * @ORM\Table(name="comment_photo")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\CommentPhotoRepository")
  */
-class Comment
+class CommentPhoto
 {
     /**
      * @var int
@@ -36,19 +36,13 @@ class Comment
     private $date;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Event", inversedBy="comments")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\photo", inversedBy="comments")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $event;
+    private $photo;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Media", inversedBy="comments")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $media;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="Comments")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="CommentsPhoto")
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
@@ -83,7 +77,7 @@ class Comment
      *
      * @param string $content
      *
-     * @return MediaComment
+     * @return CommentPhoto
      */
     public function setContent($content)
     {
@@ -107,7 +101,7 @@ class Comment
      *
      * @param \DateTime $date
      *
-     * @return MediaComment
+     * @return CommentPhoto
      */
     public function setDate($date)
     {
@@ -127,51 +121,27 @@ class Comment
     }
 
     /**
-     * Set event
+     * Set photo
      *
-     * @param \AppBundle\Entity\Event $event
+     * @param \AppBundle\Entity\photo $photo
      *
-     * @return Comment
+     * @return CommentPhoto
      */
-    public function setEvent(\AppBundle\Entity\Event $event)
+    public function setPhoto(\AppBundle\Entity\photo $photo)
     {
-        $this->event = $event;
+        $this->photo = $photo;
 
         return $this;
     }
 
     /**
-     * Get event
+     * Get photo
      *
-     * @return \AppBundle\Entity\Event
+     * @return \AppBundle\Entity\photo
      */
-    public function getEvent()
+    public function getPhoto()
     {
-        return $this->event;
-    }
-    
-    /**
-     * Set media
-     *
-     * @param \LF\MediasBundle\Entity\Media $media
-     *
-     * @return MediaComment
-     */
-    public function setMedia(\AppBundle\Entity\Media $media)
-    {
-        $this->media = $media;
-
-        return $this;
-    }
-
-    /**
-     * Get media
-     *
-     * @return \LF\MediasBundle\Entity\Media
-     */
-    public function getMedia()
-    {
-        return $this->media;
+        return $this->photo;
     }
 
     /**
@@ -179,7 +149,7 @@ class Comment
      *
      * @param \AppBundle\Entity\User $user
      *
-     * @return MediaComment
+     * @return CommentPhoto
      */
     public function setUser(\AppBundle\Entity\User $user)
     {
@@ -197,6 +167,4 @@ class Comment
     {
         return $this->user;
     }
-
-
 }

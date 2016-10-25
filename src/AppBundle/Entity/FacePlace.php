@@ -49,10 +49,10 @@ class FacePlace
     private $face;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Media", inversedBy="facePlaces", cascade={"remove"})
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Photo", inversedBy="facePlaces", cascade={"remove"})
      * @ORM\JoinColumn(nullable=false)
      */
-    private $media;
+    private $photo;
 
     /**
      * Get id
@@ -161,26 +161,26 @@ class FacePlace
     }
 
     /**
-     * Set media
+     * Set photo
      *
-     * @param \AppBundle\Entity\Media $media
+     * @param \AppBundle\Entity\Photo $photo
      *
      * @return FacePlace
      */
-    public function setMedia(\AppBundle\Entity\Media $media)
+    public function setPhoto(\AppBundle\Entity\Photo $photo)
     {
-        $this->media = $media;
+        $this->photo = $photo;
 
         return $this;
     }
 
     /**
-     * Get media
+     * Get photo
      *
-     * @return \AppBundle\Entity\Media
+     * @return \AppBundle\Entity\Photo
      */
-    public function getMedia()
+    public function getPhoto()
     {
-        return $this->media;
+        return $this->photo;
     }
 }

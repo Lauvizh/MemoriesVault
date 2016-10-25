@@ -8,12 +8,12 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 
 /**
- * Media
+ * Photo
  *
- * @ORM\Table(name="media")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\MediaRepository")
+ * @ORM\Table(name="photo")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\PhotoRepository")
  */
-class Media
+class Photo
 {
     /**
      * @var int
@@ -27,16 +27,9 @@ class Media
     /**
      * @var string
      *
-     * @ORM\Column(name="type", type="string", length=10, nullable=true)
+     * @ORM\Column(name="size_octet", type="decimal", precision=10, scale=0, nullable=true)
      */
-    private $type;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="size_ko", type="decimal", precision=10, scale=0, nullable=true)
-     */
-    private $sizeKo;
+    private $sizeOctet;
 
     /**
      * @var string
@@ -67,7 +60,7 @@ class Media
     private $addDate;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Event", inversedBy="medias")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Event", inversedBy="photos")
      * @ORM\JoinColumn(nullable=false)
      */
     private $event;
@@ -87,11 +80,23 @@ class Media
     private $title;
 
     /**
+     * @ORM\Column(name="metadata_scanned", type="boolean")
+     */
+    private $metadataScanned;
+
+    /**
      * @var string
      *
-     * @ORM\Column(name="camera", type="string", length=255, nullable=true)
+     * @ORM\Column(name="camera_model", type="string", length=255, nullable=true)
      */
     private $camera;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="camera_sn", type="string", length=255, nullable=true)
+     */
+    private $cameraSerialNumber;
 
     /**
      * @var string
@@ -145,34 +150,6 @@ class Media
     /**
      * @var string
      *
-     * @ORM\Column(name="duration", type="string", length=255, nullable=true)
-     */
-    private $duration;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="start_date", type="datetime", nullable=true)
-     */
-    private $startDate;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="end_date", type="datetime", nullable=true)
-     */
-    private $endDate;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="video_poster", type="string", length=255, nullable=true)
-     */
-    private $videoPoster;
-
-    /**
-     * @var string
-     *
      * @ORM\Column(name="gps_lat", type="string", length=255, nullable=true)
      */
     private $gpsLat;
@@ -192,13 +169,13 @@ class Media
     private $infos;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\FacePlace", mappedBy="media", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\FacePlace", mappedBy="photo", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
     private $facePlaces;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Comment", mappedBy="media", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\CommentPhoto", mappedBy="photo", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
     private $comments;
@@ -223,7 +200,7 @@ class Media
     /**
      * Get id
      *
-     * @return int
+     * @return integer
      */
     public function getId()
     {
@@ -231,51 +208,27 @@ class Media
     }
 
     /**
-     * Set type
+     * Set sizeOctet
      *
-     * @param string $type
+     * @param string $sizeOctet
      *
-     * @return Media
+     * @return Photo
      */
-    public function setType($type)
+    public function setSizeOctet($sizeOctet)
     {
-        $this->type = $type;
+        $this->sizeOctet = $sizeOctet;
 
         return $this;
     }
 
     /**
-     * Get type
+     * Get sizeOctet
      *
      * @return string
      */
-    public function getType()
+    public function getSizeOctet()
     {
-        return $this->type;
-    }
-
-    /**
-     * Set sizeKo
-     *
-     * @param string $sizeKo
-     *
-     * @return Media
-     */
-    public function setSizeKo($sizeKo)
-    {
-        $this->sizeKo = $sizeKo;
-
-        return $this;
-    }
-
-    /**
-     * Get sizeKo
-     *
-     * @return string
-     */
-    public function getSizeKo()
-    {
-        return $this->sizeKo;
+        return $this->sizeOctet;
     }
 
     /**
@@ -283,7 +236,7 @@ class Media
      *
      * @param string $fileOldName
      *
-     * @return Media
+     * @return Photo
      */
     public function setFileOldName($fileOldName)
     {
@@ -302,12 +255,12 @@ class Media
         return $this->fileOldName;
     }
 
-        /**
+    /**
      * Set extention
      *
      * @param string $extention
      *
-     * @return Media
+     * @return Photo
      */
     public function setExtention($extention)
     {
@@ -331,7 +284,7 @@ class Media
      *
      * @param string $mimeType
      *
-     * @return Media
+     * @return Photo
      */
     public function setMimeType($mimeType)
     {
@@ -351,34 +304,11 @@ class Media
     }
 
     /**
-     * Get name
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        $name = str_pad($this->getId(), 10, 0, STR_PAD_LEFT);
-        $name .= ".";
-        $name .= $this->getExtention();
-        return $name;
-    }
-
-    /**
-     * Get folder
-     *
-     * @return string
-     */
-    public function getFolder()
-    {
-        return $this->getEvent()->getFolder();
-    }
-    
-    /**
      * Set addDate
      *
      * @param \DateTime $addDate
      *
-     * @return Media
+     * @return Photo
      */
     public function setAddDate($addDate)
     {
@@ -402,7 +332,7 @@ class Media
      *
      * @param \DateTime $pdvDate
      *
-     * @return Media
+     * @return Photo
      */
     public function setPdvDate($pdvDate)
     {
@@ -426,7 +356,7 @@ class Media
      *
      * @param string $title
      *
-     * @return Media
+     * @return Photo
      */
     public function setTitle($title)
     {
@@ -446,11 +376,35 @@ class Media
     }
 
     /**
+     * Set metadataScanned
+     *
+     * @param boolean $metadataScanned
+     *
+     * @return Photo
+     */
+    public function setMetadataScanned($metadataScanned)
+    {
+        $this->metadataScanned = $metadataScanned;
+
+        return $this;
+    }
+
+    /**
+     * Get metadataScanned
+     *
+     * @return boolean
+     */
+    public function getMetadataScanned()
+    {
+        return $this->metadataScanned;
+    }
+
+    /**
      * Set camera
      *
      * @param string $camera
      *
-     * @return Media
+     * @return Photo
      */
     public function setCamera($camera)
     {
@@ -470,11 +424,35 @@ class Media
     }
 
     /**
+     * Set cameraSerialNumber
+     *
+     * @param string $cameraSerialNumber
+     *
+     * @return Photo
+     */
+    public function setCameraSerialNumber($cameraSerialNumber)
+    {
+        $this->cameraSerialNumber = $cameraSerialNumber;
+
+        return $this;
+    }
+
+    /**
+     * Get cameraSerialNumber
+     *
+     * @return string
+     */
+    public function getCameraSerialNumber()
+    {
+        return $this->cameraSerialNumber;
+    }
+
+    /**
      * Set focal
      *
      * @param string $focal
      *
-     * @return Media
+     * @return Photo
      */
     public function setFocal($focal)
     {
@@ -498,7 +476,7 @@ class Media
      *
      * @param string $focal35
      *
-     * @return Media
+     * @return Photo
      */
     public function setFocal35($focal35)
     {
@@ -522,7 +500,7 @@ class Media
      *
      * @param string $iso
      *
-     * @return Media
+     * @return Photo
      */
     public function setIso($iso)
     {
@@ -546,7 +524,7 @@ class Media
      *
      * @param string $speed
      *
-     * @return Media
+     * @return Photo
      */
     public function setSpeed($speed)
     {
@@ -570,7 +548,7 @@ class Media
      *
      * @param string $aperture
      *
-     * @return Media
+     * @return Photo
      */
     public function setAperture($aperture)
     {
@@ -594,7 +572,7 @@ class Media
      *
      * @param integer $height
      *
-     * @return Media
+     * @return Photo
      */
     public function setHeight($height)
     {
@@ -618,7 +596,7 @@ class Media
      *
      * @param integer $width
      *
-     * @return Media
+     * @return Photo
      */
     public function setWidth($width)
     {
@@ -638,107 +616,11 @@ class Media
     }
 
     /**
-     * Set duration
-     *
-     * @param string $duration
-     *
-     * @return Media
-     */
-    public function setDuration($duration)
-    {
-        $this->duration = $duration;
-
-        return $this;
-    }
-
-    /**
-     * Get duration
-     *
-     * @return string
-     */
-    public function getDuration()
-    {
-        return $this->duration;
-    }
-
-    /**
-     * Set startDate
-     *
-     * @param \DateTime $startDate
-     *
-     * @return Media
-     */
-    public function setStartDate($startDate)
-    {
-        $this->startDate = $startDate;
-
-        return $this;
-    }
-
-    /**
-     * Get startDate
-     *
-     * @return \DateTime
-     */
-    public function getStartDate()
-    {
-        return $this->startDate;
-    }
-
-    /**
-     * Set endDate
-     *
-     * @param \DateTime $endDate
-     *
-     * @return Media
-     */
-    public function setEndDate($endDate)
-    {
-        $this->endDate = $endDate;
-
-        return $this;
-    }
-
-    /**
-     * Get endDate
-     *
-     * @return \DateTime
-     */
-    public function getEndDate()
-    {
-        return $this->endDate;
-    }
-
-    /**
-     * Set videoPoster
-     *
-     * @param string $videoPoster
-     *
-     * @return Media
-     */
-    public function setvideoPoster($videoPoster)
-    {
-        $this->videoPoster = $videoPoster;
-
-        return $this;
-    }
-
-    /**
-     * Get videoPoster
-     *
-     * @return string
-     */
-    public function getvideoPoster()
-    {
-        return $this->videoPoster;
-    }
-
-    /**
      * Set gpsLat
      *
      * @param string $gpsLat
      *
-     * @return Media
+     * @return Photo
      */
     public function setGpsLat($gpsLat)
     {
@@ -762,7 +644,7 @@ class Media
      *
      * @param string $gpsLon
      *
-     * @return Media
+     * @return Photo
      */
     public function setGpsLon($gpsLon)
     {
@@ -786,7 +668,7 @@ class Media
      *
      * @param string $infos
      *
-     * @return Media
+     * @return Photo
      */
     public function setInfos($infos)
     {
@@ -810,7 +692,7 @@ class Media
      *
      * @param \AppBundle\Entity\Event $event
      *
-     * @return Media
+     * @return Photo
      */
     public function setEvent(\AppBundle\Entity\Event $event)
     {
@@ -834,7 +716,7 @@ class Media
      *
      * @param \AppBundle\Entity\FacePlace $facePlace
      *
-     * @return Media
+     * @return Photo
      */
     public function addFacePlace(\AppBundle\Entity\FacePlace $facePlace)
     {
@@ -866,11 +748,11 @@ class Media
     /**
      * Add comment
      *
-     * @param \AppBundle\Entity\Comment $comment
+     * @param \AppBundle\Entity\CommentPhoto $comment
      *
-     * @return Media
+     * @return Photo
      */
-    public function addComment(\AppBundle\Entity\Comment $comment)
+    public function addComment(\AppBundle\Entity\CommentPhoto $comment)
     {
         $this->comments[] = $comment;
 
@@ -880,9 +762,9 @@ class Media
     /**
      * Remove comment
      *
-     * @param \AppBundle\Entity\Comment $comment
+     * @param \AppBundle\Entity\CommentPhoto $comment
      */
-    public function removeComment(\AppBundle\Entity\Comment $comment)
+    public function removeComment(\AppBundle\Entity\CommentPhoto $comment)
     {
         $this->comments->removeElement($comment);
     }
@@ -897,11 +779,40 @@ class Media
         return $this->comments;
     }
 
+
+    /**
+     * Get folder
+     *
+     * @return string
+     */
+    public function getFolder()
+    {
+        return $this->getEvent()->getFolder()."/PHOTOS";
+    }
+
+    /**
+     * Get file
+     *
+     * @return string
+     */
+    public function getFile()
+    {
+        $file = str_pad($this->getId(), 10, 0, STR_PAD_LEFT);
+        $file .= ".";
+        $file .= $this->getExtention();
+        return $file;
+    }
+
+    /**
+     * Creat Photo Thumbnail
+     *
+     * @return Photo
+     */
     public function creatThumbnail($size, $basePath, $ratio){
 
         $fs = new Filesystem();
 
-        $originalMadia = $basePath."/".$this->getEvent()->getFolder()."/PHOTOS/".$this->getName();
+        $originalMadia = $basePath."/".$this->getEvent()->getFolder()."/PHOTOS/".$this->getFile();
 
         $displayfolder = $basePath."/imagesdisplay/".$size;
 
