@@ -16,7 +16,7 @@ class PhotoController extends Controller
 {
 
     /**
-     * @Route("/photo/{ratio}/{id}/{size}.{extention}", name="photo", requirements={"id": "\d+","size": "\d+"})
+     * @Route("/photo/{ratio}/{id}/{size}.{extention}", name="photo", requirements={"id": "\d+","ratio":"original|square","size": "\d+"})
      */
     public function photoAction($id,$size=0,$ratio="original",$extention="jpg")
     {
@@ -27,37 +27,52 @@ class PhotoController extends Controller
     	// sinon on affiche l'image originale.
     	if (!empty($size) && $size > 1) {
 
-    		$mediaPath = $basePath;
-    		$mediaPath .= "/imagesdisplay/".$size."/".str_pad($id, 10, 0, STR_PAD_LEFT);
+    		$photoPath = $basePath;
+    		$photoPath .= "/imagesdisplay/".$size."/".str_pad($id, 10, 0, STR_PAD_LEFT);
     		if ($ratio == "square") {
-    			$mediaPath .= "_square";
+    			$photoPath .= "_square";
     			}
-    		$mediaPath .= ".".$extention;
-    		if (!file_exists($mediaPath)) {
+    		$photoPath .= ".".$extention;
+    		if (!file_exists($photoPath)) {
                 // recuperer les informations du media
                 $em = $this->getDoctrine()->getManager();
-                $media = $em->getRepository('AppBundle:Photo')->find($id);
-    			$media->creatThumbnail($size, $basePath, $ratio);
-                if (!$media->getMetadataScanned()) {
-                    $media->metadataAnalysis($basePath);
+                $photo = $em->getRepository('AppBundle:Photo')->find($id);
+    			$photo->creatThumbnail($size, $basePath, $ratio);
+                if (!$photo->getMetadataScanned()) {
+                    $photo->metadataAnalysis($basePath);
                     }
                 $em->flush();
     			}
     		}
     	else{
             $em = $this->getDoctrine()->getManager();
-            $media = $em->getRepository('AppBundle:Photo')->find($id);
-    		$mediaPath = $basePath."/".$media->getEvent()->getFolder()."/PHOTOS/".$media->getFile();
-            if (!file_exists($mediaPath)) {
+            $photo = $em->getRepository('AppBundle:Photo')->find($id);
+    		$photoPath = $basePath."/".$photo->getEvent()->getFolder()."/PHOTOS/".$photo->getFile();
+            if (!file_exists($photoPath)) {
                 throw new NotFoundHttpException('Sorry, video photo does not exist!');
                 }
     		}
 
-		$response = new BinaryFileResponse($mediaPath);
+		$response = new BinaryFileResponse($photoPath);
 		$response->setContentDisposition(ResponseHeaderBag::DISPOSITION_INLINE,str_pad($id, 10, 0, STR_PAD_LEFT).".".$extention);
 
 		return $response;
     }
 
+    /**
+     * @Route("/photo/data/{id}", name="photo_data", requirements={"id": "\d+"})
+     */
+    public function photoDataAction($id)
+    {
+
+        $em = $this->getDoctrine()->getManager();
+        $photo = $em->getRepository('AppBundle:Photo')->find($id);
+        $next  = $em->getRepository('AppBundle:Photo')->findPreviousPhoto($photo)->getResult();
+
+        echo "<pre>";
+        \Doctrine\Common\Util\Debug::dump($next,3);
+        echo "</pre>";
+        die();
+    }
 
 }

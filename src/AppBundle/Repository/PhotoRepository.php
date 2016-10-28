@@ -19,4 +19,30 @@ class PhotoRepository extends \Doctrine\ORM\EntityRepository
             ->getQuery();
     }
 
+
+	public function findNextPhoto(\AppBundle\Entity\Photo $photo)
+    {
+        return $this->createQueryBuilder('p')
+            ->where('p.event = :eventId')
+            ->andWhere('p.captureDate >= :photoCaptureDate')
+            ->andWhere('p.id <> :photoId')
+            ->setParameter('eventId', $photo->getEvent()->getId())
+            ->setParameter('photoId', $photo->getId())
+            ->setParameter('photoCaptureDate', $photo->getCaptureDate())
+            ->setMaxResults(1)
+            ->getQuery();
+    }
+
+    public function findPreviousPhoto(\AppBundle\Entity\Photo $photo)
+    {
+        return $this->createQueryBuilder('p')
+            ->where('p.event = :eventId')
+            ->andWhere('p.captureDate <= :photoCaptureDate')
+            ->andWhere('p.id <> :photoId')
+            ->setParameter('eventId', $photo->getEvent()->getId())
+            ->setParameter('photoId', $photo->getId())
+            ->setParameter('photoCaptureDate', $photo->getCaptureDate())
+            ->setMaxResults(1)
+            ->getQuery();
+    }
 }
