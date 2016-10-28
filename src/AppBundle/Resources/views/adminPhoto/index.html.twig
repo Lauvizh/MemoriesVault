@@ -1,0 +1,66 @@
+{% extends "AppBundle::layoutAdmin.html.twig" %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-xs-12">
+            <h1>Photo list of : {{ event.title }}</h1>
+            <p class="helper">event id : {{ event.id }}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <a class="btn btn-success" href="{{ path('admin_media_upload') }}">Upload medias</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Add date</th>
+                        <th>Capture date</th>
+                        <th>Title</th>
+                        <th>Size</th>
+                        <th>GPS</th>
+                        <th>Infos</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for photo in photos %}
+                    <tr>
+                        <td><a href="{{ path('admin_photo_show', { 'id': photo.id }) }}">{{ photo.id }}</a></td>
+                        <td>{% if photo.addDate %}{{ photo.addDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+                        <td>{% if photo.captureDate %}{{ photo.captureDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+                        <td>{{ photo.title }}</td>
+                        <td>{{ photo.height }}px x {{ photo.width }}px</td>
+                        <td>Lat : {{ photo.gpsLat }}<br/> Lon : {{ photo.gpsLon }}</td>
+                        <td>{{ photo.infos }}</td>
+                        <td>
+                            <div class="btn-group">
+                              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="glyphicon glyphicon-cog"></span>Actions <span class="caret"></span>
+                              </button>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a href="{{ path('admin_photo_show', { 'id': photo.id }) }}"><span class="glyphicon glyphicon-file"></span> see</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ path('admin_media_edit', { 'id': photo.id }) }}"><span class="glyphicon glyphicon-edit"></span> edit</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <a class="btn btn-success" href="{{ path('admin_media_upload') }}">Upload medias</a>
+        </div>
+    </div>
+{% endblock %}

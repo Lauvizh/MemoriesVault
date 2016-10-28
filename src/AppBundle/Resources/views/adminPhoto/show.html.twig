@@ -1,0 +1,108 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Photo</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ photo.id }}</td>
+            </tr>
+            <tr>
+                <th>Sizeoctet</th>
+                <td>{{ photo.sizeOctet }}</td>
+            </tr>
+            <tr>
+                <th>Fileoldname</th>
+                <td>{{ photo.fileOldName }}</td>
+            </tr>
+            <tr>
+                <th>Extention</th>
+                <td>{{ photo.extention }}</td>
+            </tr>
+            <tr>
+                <th>Mimetype</th>
+                <td>{{ photo.mimeType }}</td>
+            </tr>
+            <tr>
+                <th>Adddate</th>
+                <td>{% if photo.addDate %}{{ photo.addDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Pdvdate</th>
+                <td>{% if photo.captureDate %}{{ photo.captureDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ photo.title }}</td>
+            </tr>
+            <tr>
+                <th>Metadatascanned</th>
+                <td>{% if photo.metadataScanned %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Camera</th>
+                <td>{{ photo.camera }}</td>
+            </tr>
+            <tr>
+                <th>Cameraserialnumber</th>
+                <td>{{ photo.cameraSerialNumber }}</td>
+            </tr>
+            <tr>
+                <th>Focal</th>
+                <td>{{ photo.focal }}</td>
+            </tr>
+            <tr>
+                <th>Focal35</th>
+                <td>{{ photo.focal35 }}</td>
+            </tr>
+            <tr>
+                <th>Iso</th>
+                <td>{{ photo.iso }}</td>
+            </tr>
+            <tr>
+                <th>Speed</th>
+                <td>{{ photo.speed }}</td>
+            </tr>
+            <tr>
+                <th>Aperture</th>
+                <td>{{ photo.aperture }}</td>
+            </tr>
+            <tr>
+                <th>Height</th>
+                <td>{{ photo.height }}</td>
+            </tr>
+            <tr>
+                <th>Width</th>
+                <td>{{ photo.width }}</td>
+            </tr>
+            <tr>
+                <th>Gpslat</th>
+                <td>{{ photo.gpsLat }}</td>
+            </tr>
+            <tr>
+                <th>Gpslon</th>
+                <td>{{ photo.gpsLon }}</td>
+            </tr>
+            <tr>
+                <th>Infos</th>
+                <td>{{ photo.infos }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('admin_photo_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('admin_photo_edit', { 'id': photo.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

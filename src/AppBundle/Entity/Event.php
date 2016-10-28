@@ -84,7 +84,7 @@ class Event
     /**
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Photo", mappedBy="event")
      * @ORM\JoinColumn(nullable=true)
-     * @ORM\OrderBy({"pdvDate" = "DESC"})
+     * @ORM\OrderBy({"captureDate" = "DESC"})
      */
     private $photos;
 
@@ -552,7 +552,7 @@ class Event
     {
 
         $criteria = Criteria::create()
-        ->orderBy(array('pdvDate'=> Criteria::ASC))
+        ->orderBy(array('captureDate'=> Criteria::ASC))
         ->setMaxResults($nb);
 
         return $this->photos->matching($criteria);

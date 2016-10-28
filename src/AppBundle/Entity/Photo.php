@@ -25,6 +25,11 @@ class Photo
     private $id;
 
     /**
+     * @ORM\Column(name="file_stored", type="boolean", options={"default" : false})
+     */
+    private $fileStored;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="size_octet", type="decimal", precision=10, scale=0, nullable=true)
@@ -53,13 +58,6 @@ class Photo
     private $mimeType;
 
     /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="add_date", type="datetime")
-     */
-    private $addDate;
-
-    /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Event", inversedBy="photos")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -68,9 +66,14 @@ class Photo
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="pdv_date", type="datetime", nullable=true)
+     * @ORM\Column(name="add_date", type="datetime")
      */
-    private $pdvDate;
+    private $addDate;
+
+    /**
+     * @ORM\Column(name="metadata_scanned", type="boolean", options={"default" : false})
+     */
+    private $metadataScanned;
 
     /**
      * @var string
@@ -80,9 +83,11 @@ class Photo
     private $title;
 
     /**
-     * @ORM\Column(name="metadata_scanned", type="boolean")
+     * @var \DateTime
+     *
+     * @ORM\Column(name="capture_date", type="datetime", nullable=true)
      */
-    private $metadataScanned;
+    private $captureDate;
 
     /**
      * @var string
@@ -185,9 +190,13 @@ class Photo
      */
     public function __construct()
     {
+        
+        $this->fileStored = false;
         $this->addDate = new \DateTime;
         $this->facePlaces = new \Doctrine\Common\Collections\ArrayCollection();
         $this->comments = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->metadataScanned = false;
+
     }
 
     /**
@@ -205,6 +214,30 @@ class Photo
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set fileStored
+     *
+     * @param boolean $fileStored
+     *
+     * @return Photo
+     */
+    public function setFileStored($fileStored)
+    {
+        $this->fileStored = $fileStored;
+
+        return $this;
+    }
+
+    /**
+     * Get fileStored
+     *
+     * @return boolean
+     */
+    public function getFileStored()
+    {
+        return $this->fileStored;
     }
 
     /**
@@ -328,27 +361,27 @@ class Photo
     }
 
     /**
-     * Set pdvDate
+     * Set captureDate
      *
-     * @param \DateTime $pdvDate
+     * @param \DateTime $captureDate
      *
      * @return Photo
      */
-    public function setPdvDate($pdvDate)
+    public function setCaptureDate($captureDate)
     {
-        $this->pdvDate = $pdvDate;
+        $this->captureDate = $captureDate;
 
         return $this;
     }
 
     /**
-     * Get pdvDate
+     * Get captureDate
      *
      * @return \DateTime
      */
-    public function getPdvDate()
+    public function getCaptureDate()
     {
-        return $this->pdvDate;
+        return $this->captureDate;
     }
 
     /**
@@ -880,4 +913,110 @@ class Photo
         return $this;
 
         }
+
+        /**
+     * Creat Photo Thumbnail
+     *
+     * @return Photo
+     */
+    public function metadataAnalysis($basePath){
+
+        $fs = new Filesystem();
+
+        $originalMadia = $basePath."/".$this->getEvent()->getFolder()."/PHOTOS/".$this->getFile();
+
+        if (!$fs->exists($originalMadia)) {
+            return $this;
+            }
+
+        $im = new \imagick($originalMadia);
+        $imagedata = $im->getImageProperties();
+        // echo "<pre>";
+        // var_dump($imagedata);
+        // echo "</pre>";
+        // die();
+
+        // Camera Model
+        $make = "";
+        if (@array_key_exists('exif:Make', $imagedata)) {
+            $make = mb_convert_case(trim($imagedata['exif:Make']), MB_CASE_TITLE, "UTF-8");
+            }
+        $model = "";
+        if (@array_key_exists('exif:Model', $imagedata)) {
+            $model = mb_convert_case(trim($imagedata['exif:Model']), MB_CASE_TITLE, "UTF-8");
+            }
+
+        if ($make && $model) {
+            $makemodel = "";
+            if (!preg_match('#'.strtolower($make).'#', strtolower($model))) {
+                $makemodel = $make." ".$model;
+                }
+            else{
+                $makemodel = $model;
+                }
+            $this->setCamera($makemodel);
+            }
+        elseif ($make) {
+            $this->setCamera($make);
+            }
+        elseif ($model) {
+            $this->setCamera($model);
+            }
+
+        // Heigth
+        if (@array_key_exists('exif:ExifImageLength', $imagedata)) {
+            $this->setHeight(intval($imagedata['exif:ExifImageLength']));
+            }
+
+        // Width
+        if (@array_key_exists('exif:ExifImageWidth', $imagedata)) {
+            $this->setWidth(intval($imagedata['exif:ExifImageWidth']));
+            }
+        
+        // Capture DateTime
+        if (@array_key_exists('exif:DateTimeOriginal', $imagedata)) {
+            $this->setCaptureDate(new \DateTime($imagedata['exif:DateTimeOriginal']));
+            }
+
+        // Exposure
+        if (@array_key_exists('exif:ExposureTime', $imagedata)) {
+            if (preg_match('#(\d+\/\d+)#', $imagedata['exif:ExposureTime'], $i)) {
+                $this->setSpeed($i[1]);
+                };
+            }
+
+        // Aperture
+        $apertureData = null;
+        if (@array_key_exists('exif:FNumber', $imagedata)) {
+            if (preg_match('#f\/(\d+)[\.,]{0,1}(\d+)#', $imagedata['exif:FNumber'], $i)) {
+                $apertureData = $i[1].".".$i[2];
+                }
+            }
+        if (!$apertureData && @array_key_exists('exif:ApertureValue', $imagedata)) {
+            if (preg_match('#f\/(\d+)[\.,]{0,1}(\d+)#', $imagedata['exif:ApertureValue'], $i)) {
+                $apertureData = $i[1];
+                }
+            elseif (preg_match('#(\d+)\/(\d+)#', $imagedata['exif:ApertureValue'], $i)) {
+                $apertureData = round(($i[1]/$i[2]),1,PHP_ROUND_HALF_ODD);
+                }
+            }
+
+        $this->setAperture($apertureData);
+
+        // ISO
+        if (@array_key_exists('exif:ISOSpeedRatings',$imagedata)) {
+            $this->setIso(intval($imagedata['exif:ISOSpeedRatings']));
+            }
+
+        // echo "<pre>";
+        // \Doctrine\Common\Util\Debug::dump($this,2);
+        // echo "</pre>";
+        // die();
+
+        $this->setMetadataScanned(true);
+
+        return $this;
+
+    }
+
 }

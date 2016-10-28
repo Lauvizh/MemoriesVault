@@ -1,0 +1,80 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Video</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ video.id }}</td>
+            </tr>
+            <tr>
+                <th>Isactive</th>
+                <td>{% if video.isActive %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Adddate</th>
+                <td>{% if video.addDate %}{{ video.addDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ video.title }}</td>
+            </tr>
+            <tr>
+                <th>Height</th>
+                <td>{{ video.height }}</td>
+            </tr>
+            <tr>
+                <th>Width</th>
+                <td>{{ video.width }}</td>
+            </tr>
+            <tr>
+                <th>Duration</th>
+                <td>{{ video.duration }}</td>
+            </tr>
+            <tr>
+                <th>Startdate</th>
+                <td>{% if video.startDate %}{{ video.startDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Enddate</th>
+                <td>{% if video.endDate %}{{ video.endDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Videoposter</th>
+                <td>{{ video.videoPoster }}</td>
+            </tr>
+            <tr>
+                <th>Gpslat</th>
+                <td>{{ video.gpsLat }}</td>
+            </tr>
+            <tr>
+                <th>Gpslon</th>
+                <td>{{ video.gpsLon }}</td>
+            </tr>
+            <tr>
+                <th>Gpsradius</th>
+                <td>{{ video.gpsRadius }}</td>
+            </tr>
+            <tr>
+                <th>Infos</th>
+                <td>{{ video.infos }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('admin_video_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('admin_video_edit', { 'id': video.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

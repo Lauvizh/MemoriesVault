@@ -38,6 +38,9 @@ class PhotoController extends Controller
                 $em = $this->getDoctrine()->getManager();
                 $media = $em->getRepository('AppBundle:Photo')->find($id);
     			$media->creatThumbnail($size, $basePath, $ratio);
+                if (!$media->getMetadataScanned()) {
+                    $media->metadataAnalysis($basePath);
+                    }
                 $em->flush();
     			}
     		}

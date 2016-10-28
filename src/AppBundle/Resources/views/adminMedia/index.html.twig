@@ -46,7 +46,7 @@
                         <td>{{ medium.type }}</td>
                         <td>{{ medium.folder }}</td>
                         <td>{% if medium.addDate %}{{ medium.addDate|date('Y-m-d H:i:s') }}{% endif %}</td>
-                        <td>{% if medium.pdvDate %}{{ medium.pdvDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+                        <td>{% if medium.captureDate %}{{ medium.captureDate|date('Y-m-d H:i:s') }}{% endif %}</td>
                         <td>{{ medium.title }}</td>
                         <td>{{ medium.height }}px x {{ medium.width }}px</td>
                         <td>{{ medium.duration }}</td>

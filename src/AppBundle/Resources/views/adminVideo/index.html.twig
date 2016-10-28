@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Video list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Isactive</th>
+                <th>Adddate</th>
+                <th>Title</th>
+                <th>Height</th>
+                <th>Width</th>
+                <th>Duration</th>
+                <th>Startdate</th>
+                <th>Enddate</th>
+                <th>Videoposter</th>
+                <th>Gpslat</th>
+                <th>Gpslon</th>
+                <th>Gpsradius</th>
+                <th>Infos</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for video in videos %}
+            <tr>
+                <td><a href="{{ path('admin_video_show', { 'id': video.id }) }}">{{ video.id }}</a></td>
+                <td>{% if video.isActive %}Yes{% else %}No{% endif %}</td>
+                <td>{% if video.addDate %}{{ video.addDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ video.title }}</td>
+                <td>{{ video.height }}</td>
+                <td>{{ video.width }}</td>
+                <td>{{ video.duration }}</td>
+                <td>{% if video.startDate %}{{ video.startDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if video.endDate %}{{ video.endDate|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ video.videoPoster }}</td>
+                <td>{{ video.gpsLat }}</td>
+                <td>{{ video.gpsLon }}</td>
+                <td>{{ video.gpsRadius }}</td>
+                <td>{{ video.infos }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('admin_video_show', { 'id': video.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('admin_video_edit', { 'id': video.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('admin_video_new') }}">Create a new entry</a>
+        </li>
+    </ul>
+{% endblock %}
