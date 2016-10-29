@@ -900,11 +900,37 @@ class Photo
             $comp = 60;
             }
         $redim->setImageCompressionQuality($comp);
-        
+
+        if ($ori = $redim->getImageOrientation()) {
+            switch ($ori) {
+                case 2:
+                    $redim->flopImage();
+                    break;
+                case 3:
+                    $redim->rotateImage(new \ImagickPixel('#00000000'),-180);
+                    break;
+                case 4:
+                    $redim->flipImage();
+                    break;
+                case 5:
+                    $redim->flipImage();
+                    $redim->rotateImage(new \ImagickPixel('#00000000'),90);
+                    break;
+                case 6:
+                    $redim->rotateImage(new \ImagickPixel('#00000000'),90);
+                    break;
+                case 7:
+                    $redim->flopImage();
+                    $redim->rotateImage(new \ImagickPixel('#00000000'),90);
+                    break;
+                case 8:
+                    $redim->rotateImage(new \ImagickPixel('#00000000'),-90);
+                    break;
+                }
+            }        
 
         // Strip out unneeded meta data
         $redim->stripImage();
-
 
         $redim->writeImage($mediaPath);
 
