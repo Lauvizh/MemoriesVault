@@ -989,6 +989,11 @@ class Photo
             $this->setCamera($model);
             }
 
+        // Camera SerialNumber
+        if (@array_key_exists('exif:CameraSerialNumber', $imagedata)) {
+            $this->setCameraSerialNumber(mb_convert_case(trim($imagedata['exif:CameraSerialNumber']), MB_CASE_UPPER, "UTF-8"));
+            }
+
         // Heigth
         if (@array_key_exists('exif:ExifImageLength', $imagedata)) {
             $this->setHeight(intval($imagedata['exif:ExifImageLength']));
@@ -1002,6 +1007,12 @@ class Photo
         // Capture DateTime
         if (@array_key_exists('exif:DateTimeOriginal', $imagedata)) {
             $this->setCaptureDate(new \DateTime($imagedata['exif:DateTimeOriginal']));
+            }
+        elseif (filectime($originalMadia)) {
+            $this->setCaptureDate(new \DateTime(date("c", filectime($originalMadia))));
+            }
+        elseif (filemtime($originalMadia)) {
+            $this->setCaptureDate(new \DateTime(date("c", filemtime($originalMadia))));
             }
 
         // Exposure
@@ -1034,10 +1045,16 @@ class Photo
             $this->setIso(intval($imagedata['exif:ISOSpeedRatings']));
             }
 
-        // echo "<pre>";
-        // \Doctrine\Common\Util\Debug::dump($this,2);
-        // echo "</pre>";
-        // die();
+        
+        // Focal
+        if (@array_key_exists('exif:FocalLength',$imagedata)) {
+            $this->setFocal(round(intval($imagedata['exif:FocalLength']),0));
+            }
+
+        // Focal 35mm
+        if (@array_key_exists('exif:FocalLengthIn35mmFormat',$imagedata)) {
+            $this->setFocal35(round(intval($imagedata['exif:FocalLengthIn35mmFormat']),0));
+            }
 
         $this->setMetadataScanned(true);
 

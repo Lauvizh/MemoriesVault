@@ -15,6 +15,8 @@ class PhotoRepository extends \Doctrine\ORM\EntityRepository
     {
         return $this->createQueryBuilder('p')
             ->where('p.event = :eventid')
+            ->addOrderBy('p.captureDate', 'ASC')
+            ->addOrderBy('p.id', 'ASC')
             ->setParameter('eventid', $event->getId())
             ->getQuery();
     }
@@ -23,6 +25,8 @@ class PhotoRepository extends \Doctrine\ORM\EntityRepository
 	public function findNextPhoto(\AppBundle\Entity\Photo $photo)
     {
         return $this->createQueryBuilder('p')
+        	->addOrderBy('p.captureDate', 'ASC')
+        	->addOrderBy('p.id', 'ASC')
             ->where('p.event = :eventId')
             ->andWhere('p.captureDate >= :photoCaptureDate')
             ->andWhere('p.id <> :photoId')
@@ -36,6 +40,8 @@ class PhotoRepository extends \Doctrine\ORM\EntityRepository
     public function findPreviousPhoto(\AppBundle\Entity\Photo $photo)
     {
         return $this->createQueryBuilder('p')
+        	->addOrderBy('p.captureDate', 'DESC')
+        	->addOrderBy('p.id', 'DESC')
             ->where('p.event = :eventId')
             ->andWhere('p.captureDate <= :photoCaptureDate')
             ->andWhere('p.id <> :photoId')

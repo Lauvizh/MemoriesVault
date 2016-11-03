@@ -1,11 +1,13 @@
 # messages.fr.yml
 app:
   memoriesVault: coffre des souvenirs
+  back_event: retour à l'évènement
   word:
     admin: gestion
     archives: archives
     faces: visages
     from: du
+    on: le
     home: accueil
     logIn : connexion
     logOut: déconnexion
@@ -14,7 +16,19 @@ app:
     themes: thèmes
     title: titre
     to : au
-
+    next : suivant
+    previous : précédent
+    commented: commenté
+    informations: informations
+  metadata:
+    camera : appareil photo
+    focal : focal
+    focal35 : focal 35mm
+    iso : iso
+    speed : vitesse
+    aperture : diaphragme
+    originalHeightPx : hauteur originale
+    originalWidthPx : largeur originale
 #---- Paginator
 Previous: précédent
 Next: suivant

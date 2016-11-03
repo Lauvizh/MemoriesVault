@@ -64,15 +64,40 @@ class PhotoController extends Controller
      */
     public function photoDataAction($id)
     {
-
+        $basePath = $this->get('kernel')->getRootDir()."/../medias";
         $em = $this->getDoctrine()->getManager();
         $photo = $em->getRepository('AppBundle:Photo')->find($id);
-        $next  = $em->getRepository('AppBundle:Photo')->findPreviousPhoto($photo)->getResult();
+        if (!$photo->getMetadataScanned()) {
+            $photo->metadataAnalysis($basePath);
+            }
 
         echo "<pre>";
-        \Doctrine\Common\Util\Debug::dump($next,3);
+        \Doctrine\Common\Util\Debug::dump($photo,3);
         echo "</pre>";
         die();
     }
 
+
+    /**
+     * @Route("/photo/details/{id}", name="photo_details", requirements={"id": "\d+"})
+     */
+    public function photoDetailsAction($id)
+    {
+        
+        $em = $this->getDoctrine()->getManager();
+        $photo = $em->getRepository('AppBundle:Photo')->find($id);
+        $prev  = $em->getRepository('AppBundle:Photo')->findPreviousPhoto($photo)->getOneOrNullResult();
+        // if not prev
+        // get last photo of event
+        if (!$prev) {
+            $prev = $photo->getEvent()->getPhotos()->first();
+            }
+        $next  = $em->getRepository('AppBundle:Photo')->findNextPhoto($photo)->getOneOrNullResult();
+        // if not next
+        // get first photo of event
+        if (!$next) {
+            $next = $photo->getEvent()->getPhotos()->last();
+            }
+        return $this->render('AppBundle:photo:details.html.twig', array('photo'=>$photo, 'next'=>$next, 'prev'=>$prev));
+    }
 }

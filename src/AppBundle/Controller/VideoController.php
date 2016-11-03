@@ -52,6 +52,9 @@ class VideoController extends Controller
         
         $em = $this->getDoctrine()->getManager();
         $media = $em->getRepository('AppBundle:Video')->find($id);
+        if (!$media->getvideoPoster()) {
+            throw new NotFoundHttpException('Sorry, no video poster recorded!');
+        }
         $mediaPath = $basePath."/".$media->getEvent()->getFolder()."/VIDEOS/".$media->getvideoPoster();
         if (!file_exists($mediaPath)) {
             throw new NotFoundHttpException('Sorry, video poster does not exist!');

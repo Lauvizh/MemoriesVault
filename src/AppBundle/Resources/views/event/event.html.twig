@@ -1,7 +1,9 @@
 {% extends "AppBundle::layout.html.twig" %}
 {% block stylesheets %}
 	{{ parent() }}
+	{% if videos %}
 	<link href="/videojs/video-js.min.css" rel="stylesheet">
+	{% endif %}
 {% endblock %}
 {% block content%}
 {% if event.title %}
@@ -11,6 +13,7 @@
 	</div>
 </div>
 {% endif %}
+
 {% if event.startDate and event.endDate %}
 <div class="row">
 	<div class="col-xs-12">
@@ -18,6 +21,7 @@
 	</div>
 </div>
 {% endif %}
+
 {% if event.summary %}
 <div class="row">
 	<div class="col-xs-12">
@@ -25,25 +29,27 @@
 	</div>
 </div>
 {% endif %}
+
 {% if event.getThemes() %}
 <div class="row">
 	<div class="col-xs-12">
-		<ul class="list-unstyled">
+		<ul class="list-unstyled list-inline">
 			{% for theme in event.getThemes() %}
-				<li>{{ theme.name }}</li>
+				<li><a class="btn-menu" href="{{ path('theme', {'id':theme.id})}}">{{ theme.name|capitalize }}</a></li>
 			{% endfor %}
 		</ul>
 	</div>
 </div>
 {% endif %}
+
+{% if videos %}
 <div class="row">
 	<div class="col-xs-12">
-	{% if videos %}
 		<ul class="row list-unstyled">
 		{% for video in videos %}
 			<li class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
 				<div class="embed-responsive embed-responsive-16by9">
-					<video id="video_{{ video.id }}" class="video-js vjs-default-skin vjs-big-play-centered vjs-16-9"  width="640" height="264" poster="{{ path('videoposter', {'id': video.id} ) }}" data-setup='{"fluid": true, "controls": true, "nativeControlsForTouch": true, "autoplay": false, "preload": "none", "techOrder": ["html5","flash"]}'>
+					<video id="video_{{ video.id }}" class="video-js vjs-default-skin vjs-big-play-centered vjs-16-9"  width="640" height="264" {% if video.videoPoster %}poster="{{ path('videoposter', {'id': video.id} ) }}" {% endif %}data-setup='{"fluid": true, "controls": true, "nativeControlsForTouch": true, "autoplay": false, "preload": "none", "techOrder": ["html5","flash"]}'>
 					{% for file in video.files %}
 					    <source src="{{ path('video', {'id':video.id, 'extention':file.extention}) }}" type="{{ file.mimeType }}">
 					{% endfor %}
@@ -53,17 +59,18 @@
 			</li>
 		{% endfor %}
 		</ul>
-	{% endif %}
 	</div>
 </div>
+{% endif %}
+
 {% if photos %}
 <div class="row">
 	<div class="col-xs-12">
 		<ul class="row list-unstyled">
-			{% for media in photos %}
+			{% for photo in photos %}
 				<li class="col-lg-1 col-md-2 col-sm-3 col-xs-4">
-					<a href="{{ path('photo', {'id':media.id, 'size':'900', 'ratio':'original'}) }}" class="thumbnail">
-				      <img src="{{ path('photo', {'id':media.id, 'size':'150', 'ratio':'square'}) }}" alt="{{ media.fileOldName }}">
+					<a href="{{ path('photo_details', {'id':photo.id}) }}" class="thumbnail">
+				      <img src="{{ path('photo', {'id':photo.id, 'size':'150', 'ratio':'square'}) }}" alt="{{ photo.fileOldName }}" title="{% if photo.captureDate %}{{ photo.getCaptureDate()|localizeddate('medium','medium') }}{% else %}no date{% endif %}">
 				    </a>
 				</li>
 			{% endfor %}
@@ -76,11 +83,14 @@
 	</div>
 </div>
 {% endif %}
+{% endblock %}
+
 {% block javascripts%}
 	{{ parent() }}
+	{% if videos %}
 	<script src="/videojs/video.min.js"></script>
 	<script>
 	  videojs.options.flash.swf = "/videojs/video-js.swf";
 	</script>
-{% endblock %}
+	{% endif %}
 {% endblock %}

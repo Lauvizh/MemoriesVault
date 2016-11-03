@@ -1,0 +1,117 @@
+{% extends "AppBundle::layout.html.twig" %}
+
+{% block content%}
+<div class="row">
+	<div class="col-xs-12">
+	    <img class="img-responsive center-block" src="{{ path('photo', {'id':photo.id, 'size':'900', 'ratio':'original'}) }}" alt="{{ photo.fileOldName }}">
+	</div>
+</div>
+
+{% if photo.title %}
+<div class="row">
+	<div class="col-xs-12">
+		<h1 class="text-center">{{ photo.title }}</h1>
+	</div>
+</div>
+{% endif %}
+
+{% if photo.captureDate %}
+<div class="row">
+	<div class="col-xs-12 text-center">
+		<p class="strong">{{ 'app.word.on'|trans }} : {{ photo.captureDate()|localizeddate('long','medium') }}</p>
+	</div>
+</div>
+{% endif %}
+
+<div class="row">
+	<div class="col-xs-12 text-center">
+		{% if prev %}
+			<a class="btn btn-success" href="{{ path('photo_details', {'id':prev.id }) }}">{{ 'app.word.previous'|trans }}</a>
+		{% endif %}
+		{% if photo %}
+			<a class="btn btn-success" href="{{ path('event', {'id':photo.event.id }) }}">{{ 'app.back_event'|trans }}</a>
+		{% endif %}
+		{% if next %}
+			<a class="btn btn-success" href="{{ path('photo_details', {'id':next.id }) }}">{{ 'app.word.next'|trans }}</a>
+		{% endif %}
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-xs-12 col-sm-6 col-md-7 col-lg-8">
+		{% if photo.comments %}
+			{% for comment in photo.comments %}
+			    <div class="row">
+					<div class="col-xs-1">
+						<div class="thumbnail">
+							{% if comment.user.face.portraitFileName %}
+								<img class="img-responsive user-photo" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png">
+							{% else %}
+							    <img class="img-responsive user-photo" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png">
+							{% endif %}
+						</div><!-- /thumbnail -->
+					</div><!-- /col-xs-1 -->
+
+					<div class="col-xs-11">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+							{% if comment.user.name %}
+								<strong>{{ comment.user.name }}</strong>
+							{% endif %}
+							{% if comment.date %}
+								<span class="text-muted">{{ 'app.word.commented'|trans }} {{ comment.date|time_diff }}</span>
+							{% endif %}
+							</div>
+							<div class="panel-body">
+								{% if comment.content %}
+									{{ comment.content|raw }}
+								{% endif %}
+							</div><!-- /panel-body -->
+							<div class="panel-footer">
+								<div class="small">{{ comment.date|localizeddate('long','medium') }}</div>
+							</div>
+						</div><!-- /panel panel-default -->
+					</div><!-- /col-xs-5 -->
+				</div>
+			{% endfor %}
+		{% endif %}
+	</div>
+	<div class="col-xs-12 col-sm-6 col-md-5 col-lg-4">
+		{% if photo.metadataScanned %}
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<p class="strong">{{ 'app.word.informations'|trans }}</p>
+			</div>
+			<div class="panel-body">
+				<ul class="list-unstyled">
+				{% if photo.camera %}
+					<li>{{ 'app.metadata.camera'|trans }} : {{ photo.camera }}{% if photo.cameraSerialNumber %} <span class="text-muted">{{ photo.cameraSerialNumber }}{% endif %}</span></li>
+				{% endif %}
+				{% if photo.focal %}
+					<li>{{ 'app.metadata.focal'|trans }} : {{ photo.focal }}</li>
+				{% endif %}
+				{% if photo.focal35 %}
+					<li>{{ 'app.metadata.focal35'|trans }} : {{ photo.focal35 }}mm</li>
+				{% endif %}
+				{% if photo.iso %}
+					<li>{{ 'app.metadata.iso'|trans }} : {{ photo.iso }}</li>
+				{% endif %}
+				{% if photo.speed %}
+					<li>{{ 'app.metadata.speed'|trans }} : {{ photo.speed }}</li>
+				{% endif %}
+				{% if photo.aperture %}
+					<li>{{ 'app.metadata.aperture'|trans }} : f/{{ photo.aperture }}</li>
+				{% endif %}
+				{% if photo.height %}
+					<li>{{ 'app.metadata.originalHeightPx'|trans }} : {{ photo.height }}px</li>
+				{% endif %}
+				{% if photo.width %}
+					<li>{{ 'app.metadata.originalWidthPx'|trans }} : {{ photo.width }}px</li>
+				{% endif %}
+				</ul>
+			</div>
+		</div>
+		{% endif %}
+	</div>
+</div>
+{% endblock %}
